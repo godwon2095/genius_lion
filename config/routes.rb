@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
-  root 'games#index'
+  root 'home#index'
 
+  resources :profiles, only: :show
 
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)

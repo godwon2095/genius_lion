@@ -169,7 +169,7 @@ ActiveAdmin.setup do |config|
 
   # == Setting a Favicon
   #
-  config.favicon = 'garnet.jpg'
+  #config.favicon = 'garnet.jpg'
 
   # == Meta Tags
   #
