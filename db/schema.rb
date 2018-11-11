@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_11_093848) do
+ActiveRecord::Schema.define(version: 2018_11_11_133338) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -43,9 +43,19 @@ ActiveRecord::Schema.define(version: 2018_11_11_093848) do
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
 
+  create_table "friends", force: :cascade do |t|
+    t.integer "user1_id"
+    t.integer "user2_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user1_id", "user2_id"], name: "index_friends_on_user1_id_and_user2_id", unique: true
+    t.index ["user1_id"], name: "index_friends_on_user1_id"
+    t.index ["user2_id"], name: "index_friends_on_user2_id"
+  end
+
   create_table "games", force: :cascade do |t|
     t.string "title"
-    t.string "represent_image"
+    t.string "image"
     t.text "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -58,6 +68,18 @@ ActiveRecord::Schema.define(version: 2018_11_11_093848) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_identities_on_user_id"
+  end
+
+  create_table "user_alarms", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "send_user_id"
+    t.integer "alarm_type"
+    t.string "body"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["send_user_id"], name: "index_user_alarms_on_send_user_id"
+    t.index ["user_id", "send_user_id", "body"], name: "index_user_alarms_on_user_id_and_send_user_id_and_body", unique: true
+    t.index ["user_id"], name: "index_user_alarms_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|

@@ -1,0 +1,2 @@
+class UserAlarm < ApplicationRecord
+end

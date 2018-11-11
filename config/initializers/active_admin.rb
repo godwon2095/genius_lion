@@ -1,10 +1,22 @@
 ActiveAdmin.setup do |config|
+  require 'activeadmin'
   # == Site Title
   #
   # Set the title that is displayed on the main layout
   # for each of the active admin pages.
   #
-  config.site_title = "Liongenius"
+  meta_tags_options = { viewport: 'width=device-width, initial-scale=1' }
+  config.meta_tags = meta_tags_options
+  config.meta_tags_for_logged_out_pages = meta_tags_options
+  config.site_title = "GeniusLion"
+
+  config.footer = 'GeniusLion.'
+  config.namespace :admin do |admin|
+    admin.build_menu do |menu|
+      menu.add label: '사용자관리', priority: 2
+      menu.add label: '게임관리', priority: 3
+    end
+  end
 
   # Set the link url for the title. For example, to take
   # users to your main site. Defaults to no link.
@@ -119,7 +131,7 @@ ActiveAdmin.setup do |config|
   # This allows your users to comment on any resource registered with Active Admin.
   #
   # You can completely disable comments:
-  # config.comments = false
+  config.comments = false
   #
   # You can change the name under which comments are registered:
   # config.comments_registration_name = 'AdminComment'
@@ -157,7 +169,7 @@ ActiveAdmin.setup do |config|
 
   # == Setting a Favicon
   #
-  # config.favicon = 'favicon.ico'
+  #config.favicon = 'garnet.jpg'
 
   # == Meta Tags
   #

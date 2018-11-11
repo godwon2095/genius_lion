@@ -1,0 +1,9 @@
+<div class="">
+  <% if current_user.is_friend(@user_id) %>
+    <%= link_to "친구삭제", delete_friend_path(:friend_id => @user_id), method: 'post', remote: true %>
+  <% elsif current_user != @user_id %>
+    <%= link_to "친구추가", add_friend_path(:friend_id => @user_id), method: 'post', remote: true %>
+  <% elsif current_user == @user_id %>
+  설정
+  <% end %>
+</div>

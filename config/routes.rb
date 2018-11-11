@@ -1,6 +1,15 @@
 Rails.application.routes.draw do
   root 'home#index'
 
+  resources :profiles, only: [:show]
+  resources :friends, only: [:create] do
+    member do
+      get :add_friend, defaults: {format: 'js'}, as: 'add'
+      post :allow_friend, defaults: {format: 'js'}, as: 'allow'
+      delete :delete_friend, as: 'delete'
+    end
+  end
+
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
 
