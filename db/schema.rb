@@ -45,7 +45,7 @@ ActiveRecord::Schema.define(version: 2018_11_11_081529) do
 
   create_table "games", force: :cascade do |t|
     t.string "title"
-    t.string "represent_image"
+    t.string "image"
     t.text "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
