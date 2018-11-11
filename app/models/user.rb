@@ -33,4 +33,24 @@ class User < ApplicationRecord
 
     user #user 리턴
   end
+
+  def is_friend(other_user)
+    result = false
+    tmp_friend1 = Friend.where(user1: self)
+    tmp_friend2 = Friend.where(user2: self)
+
+    if tmp_friend1.present?
+      if tmp_friend1.pluck('user2_id').include?(other_user.id)
+        result = true
+      end
+    end
+
+    if tmp_friend2.present?
+      if tmp_friend2.pluck('user1_id').include?(other_user.id)
+        result = true
+      end
+    end
+
+    return result
+  end
 end
