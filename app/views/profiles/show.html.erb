@@ -1,9 +1,9 @@
 <div class="">
-  <% if current_user.is_friend(@user_id) %>
-    <%= link_to "친구삭제", delete_friend_path(:friend_id => @user_id), method: 'post', remote: true %>
-  <% elsif current_user != @user_id %>
-    <%= link_to "친구추가", add_friend_path(:friend_id => @user_id), method: 'post', remote: true %>
-  <% elsif current_user == @user_id %>
-  설정
+  <% if current_user.is_friend(@user) == true %>
+    <%= link_to "친구끊기", delete_friend_path(:friend_id => @user.id), method: 'delete' %>
+    <% elsif current_user == @user %>
+    나를 친구로 추가할 수 없습니다.
+  <% elsif current_user.is_friend(@user) == false %>
+    <%= link_to "친구추가", add_friend_path(:friend_id => @user.id), method: 'get' %>
   <% end %>
 </div>
