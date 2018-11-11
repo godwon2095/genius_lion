@@ -6,6 +6,8 @@ class User < ApplicationRecord
 
   enum gender: [:default, :male, :female, :others]
 
+  has_many :friends, dependent: :destroy
+
   def self.find_for_oauth(auth, signed_in_resource = nil)
     identity = Identity.find_for_oauth(auth)
     user = signed_in_resource ? signed_in_resource : identity.user

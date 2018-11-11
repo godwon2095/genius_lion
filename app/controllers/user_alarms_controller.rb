@@ -1,0 +1,2 @@
+class UserAlarmsController < ApplicationController
+end
