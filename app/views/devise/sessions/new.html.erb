@@ -1,13 +1,13 @@
-<h2>Log in</h2>
+<h2>로그인</h2>
 
 <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
   <div class="field">
-    <%= f.label :email %><br />
+    <%= f.label :email, '이메일' %><br />
     <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
   </div>
 
   <div class="field">
-    <%= f.label :password %><br />
+    <%= f.label :password, '비밀번호' %><br />
     <%= f.password_field :password, autocomplete: "current-password" %>
   </div>
 

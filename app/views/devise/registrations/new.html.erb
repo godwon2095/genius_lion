@@ -4,12 +4,27 @@
   <%= devise_error_messages! %>
 
   <div class="field">
-    <%= f.label :email %><br />
+    <%= f.label :email, '이메일' %><br />
     <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
   </div>
 
   <div class="field">
-    <%= f.label :password %>
+    <%= f.label :name, '이름' %><br />
+    <%= f.text_field :name, autofocus: true, autocomplete: "off" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :gender, '성별' %><br />
+    <%= f.select :gender, [['선택안함', 'default'], ['남성', 'male'], ['여성', 'female'], ['기타', 'others']] %>
+  </div>
+
+  <div class="field">
+    <%= f.label :birth, '생년월일' %><br />
+    <%= f.text_field :birth, class: "birth" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :password, '비밀번호' %>
     <% if @minimum_password_length %>
     <em>(<%= @minimum_password_length %> characters minimum)</em>
     <% end %><br />
@@ -17,7 +32,7 @@
   </div>
 
   <div class="field">
-    <%= f.label :password_confirmation %><br />
+    <%= f.label :password_confirmation, '비밀번호 확인' %><br />
     <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
   </div>
 
