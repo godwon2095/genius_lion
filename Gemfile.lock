@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/PerfectlyNormal/tinymce-rails-imageupload.git
+  revision: f0f85f7b10e4400167738c2af6079362d470a33f
+  specs:
+    tinymce-rails-imageupload (4.0.17.beta.3)
+      railties (>= 3.2, < 6)
+      tinymce-rails (~> 4.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -236,6 +244,8 @@ GEM
     thor (0.20.3)
     thread_safe (0.3.6)
     tilt (2.0.8)
+    tinymce-rails (4.8.4)
+      railties (>= 3.1.1)
     turbolinks (5.2.0)
       turbolinks-source (~> 5.2)
     turbolinks-source (5.2.0)
@@ -277,6 +287,8 @@ DEPENDENCIES
   spring
   spring-watcher-listen (~> 2.0.0)
   sqlite3
+  tinymce-rails
+  tinymce-rails-imageupload!
   turbolinks (~> 5)
   tzinfo-data
   uglifier (>= 1.3.0)
@@ -286,4 +298,4 @@ RUBY VERSION
    ruby 2.4.2p198
 
 BUNDLED WITH
-   1.16.2
+   1.17.1
