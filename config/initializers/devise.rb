@@ -9,10 +9,13 @@ Devise.setup do |config|
   # Devise will use the `secret_key_base` as its `secret_key`
   # by default. You can change it below and use your own secret key.
   # config.secret_key = 'f17cfb7c2c12591b810ed58cd78fc7f96def53d247a29eda10efd4bef66d18d02c457b936f93c3da99ad4ff1a6c580cb1c8c15f631c8f9da572c085d0313c5ed'
-  
+
   # ==> Controller configuration
   # Configure the parent class to the devise controllers.
   # config.parent_controller = 'DeviseController'
+
+  config.omniauth :google_oauth2, ENV["GOOGLE_APP_ID"], ENV["GOOGLE_SECRET_KEY"], {}
+  config.omniauth :kakao, ENV["KAKAO_KEY"], :redirect_path => "/users/auth/kakao/callback"
 
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
