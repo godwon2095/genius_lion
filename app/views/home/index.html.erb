@@ -1,8 +1,8 @@
 <br><br>
 
 <h2>채널 선택</h2>
-<% Game.all.each do |game| %>
-  <%= link_to "#{game.title}", '#' %><br>
+<% Channel.all.each do |c| %>
+  <%= link_to "#{c.game.title}", channel_path(c) %><br>
 <% end %>
 
 <br><br>

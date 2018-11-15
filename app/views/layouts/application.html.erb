@@ -16,9 +16,12 @@
   <% else %>
     <%= link_to '로그인', before_sign_in_path %>
     <%= link_to '회원가입', new_user_registration_path %>
-  <% end %>
+  <% end %><br>
 
   <body>
     <%= yield %>
+    <script type="text/javascript">
+      var currentUser = <%= raw current_user.to_json %>
+    </script>
   </body>
 </html>

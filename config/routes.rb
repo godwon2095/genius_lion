@@ -10,6 +10,12 @@ Rails.application.routes.draw do
     end
   end
   resources :rooms, only: [:create, :show, :edit, :update, :destroy]
+  resources :channels, only: [:show]
+  resources :readies, only: [:toggle] do
+    member do
+      post :toggle
+    end
+  end
 
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)

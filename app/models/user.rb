@@ -10,6 +10,7 @@ class User < ApplicationRecord
   has_many :friends, dependent: :destroy
   has_many :rooms, dependent: :destroy
   has_many :players, dependent: :destroy
+  has_many :readies, dependent: :destroy
 
   def self.find_for_oauth(auth, signed_in_resource = nil)
     identity = Identity.find_for_oauth(auth)
@@ -66,4 +67,16 @@ class User < ApplicationRecord
 
     return result
   end
+
+  def is_ready(room)
+    Ready.find_by(user: self, room: room).present?
+  end
+
+  # def as_json(*)
+  #   super.tap do |hash|
+  #     hash[:channel_names] = platforms.map(&:title)
+  #     hash[:channels] = platforms.map{|platform| Hash[:title, platform.title, :followers_size, UserPlatform.find_platform(platform.title, self).followers_size]}
+  #     hash[:birth_date] = influencer.birth
+  #   end
+  # end
 end

@@ -1,5 +1,5 @@
 class Game < ApplicationRecord
-  has_one :channel
+  has_one :channel, dependent: :destroy
 
   after_create :generate_channel
 

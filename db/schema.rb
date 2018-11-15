@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_15_022953) do
+ActiveRecord::Schema.define(version: 2018_11_15_040835) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -95,11 +95,21 @@ ActiveRecord::Schema.define(version: 2018_11_15_022953) do
     t.index ["user_id"], name: "index_players_on_user_id"
   end
 
+  create_table "readies", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "room_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["room_id"], name: "index_readies_on_room_id"
+    t.index ["user_id"], name: "index_readies_on_user_id"
+  end
+
   create_table "rooms", force: :cascade do |t|
     t.integer "user_id"
     t.boolean "is_private", default: false
     t.string "password", default: ""
     t.string "title"
+    t.string "room_number"
     t.text "notice"
     t.string "image"
     t.integer "step"

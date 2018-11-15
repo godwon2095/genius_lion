@@ -20,7 +20,7 @@ class RoomsController < ApplicationController
 
   private
   def room_create_params
-    params.require(:room).permit(:user_id, :game_id, :title, :password)
+    params.require(:room).permit(:user_id, :channel_id, :title, :password)
   end
 
   def private_setting

@@ -6,6 +6,7 @@ class CreateRooms < ActiveRecord::Migration[5.2]
       t.boolean :is_private, default: false
       t.string :password, default: ""
       t.string :title
+      t.string :room_number
       t.text :notice
       t.string :image
       t.integer :step
