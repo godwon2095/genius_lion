@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_11_133338) do
+ActiveRecord::Schema.define(version: 2018_11_15_022953) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -43,6 +43,16 @@ ActiveRecord::Schema.define(version: 2018_11_11_133338) do
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
 
+  create_table "channels", force: :cascade do |t|
+    t.integer "game_id"
+    t.integer "position"
+    t.integer "join_count", default: 0
+    t.integer "room_created_count", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_id"], name: "index_channels_on_game_id"
+  end
+
   create_table "friends", force: :cascade do |t|
     t.integer "user1_id"
     t.integer "user2_id"
@@ -57,6 +67,8 @@ ActiveRecord::Schema.define(version: 2018_11_11_133338) do
     t.string "title"
     t.string "image"
     t.text "content"
+    t.integer "min_num"
+    t.integer "max_num"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -68,6 +80,35 @@ ActiveRecord::Schema.define(version: 2018_11_11_133338) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_identities_on_user_id"
+  end
+
+  create_table "players", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "room_id"
+    t.boolean "is_guardian", default: false
+    t.integer "state"
+    t.integer "score", default: 0
+    t.datetime "changed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["room_id"], name: "index_players_on_room_id"
+    t.index ["user_id"], name: "index_players_on_user_id"
+  end
+
+  create_table "rooms", force: :cascade do |t|
+    t.integer "user_id"
+    t.boolean "is_private", default: false
+    t.string "password", default: ""
+    t.string "title"
+    t.text "notice"
+    t.string "image"
+    t.integer "step"
+    t.datetime "changed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "channel_id"
+    t.index ["channel_id"], name: "index_rooms_on_channel_id"
+    t.index ["user_id"], name: "index_rooms_on_user_id"
   end
 
   create_table "user_alarms", force: :cascade do |t|

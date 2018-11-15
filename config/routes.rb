@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       delete :delete_friend, as: 'delete'
     end
   end
+  resources :rooms, only: [:create, :show, :edit, :update, :destroy]
 
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)

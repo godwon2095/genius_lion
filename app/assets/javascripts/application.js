@@ -13,3 +13,9 @@
 //= require rails-ujs
 //= require activestorage
 //= require_tree .
+
+$(document).ready(function(){
+  $('#create_room').on('click', function(){
+    $('#room_create_form').toggle();
+  });
+});

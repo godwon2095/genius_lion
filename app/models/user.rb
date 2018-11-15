@@ -8,6 +8,8 @@ class User < ApplicationRecord
 
   has_one :identity, dependent: :destroy
   has_many :friends, dependent: :destroy
+  has_many :rooms, dependent: :destroy
+  has_many :players, dependent: :destroy
 
   def self.find_for_oauth(auth, signed_in_resource = nil)
     identity = Identity.find_for_oauth(auth)
