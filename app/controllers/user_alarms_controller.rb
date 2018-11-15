@@ -30,4 +30,11 @@ class UserAlarmsController < ApplicationController
     @user_alarm.destroy
   end
 
+  def cancel_friend
+    @user1 = User.find(params[:id])
+    @user2 = current_user
+    @friendrequest = UserAlarm.find_by(user_id: @user1.id, send_user_id: @user2.id)
+    @friendrequest.destroy
+  end
+
 end

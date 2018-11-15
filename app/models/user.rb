@@ -39,19 +39,36 @@ class User < ApplicationRecord
     result = false
     tmp_friend1 = Friend.where(user1: self)
     tmp_friend2 = Friend.where(user2: self)
-
     if tmp_friend1.present?
       if tmp_friend1.pluck('user2_id').include?(other_user.id)
         result = true
       end
     end
-
     if tmp_friend2.present?
       if tmp_friend2.pluck('user1_id').include?(other_user.id)
         result = true
       end
     end
-
     return result
   end
+
+  def sent_friend(other_user)
+    result = false
+    friendrequest = UserAlarm.where(send_user: self)
+    if friendrequest.present?
+      if friendrequest.pluck('user_id').include?(other_user.id)
+        result = true
+      end
+    end
+    return result
+  end
+
+  def received_friend(other_user)
+    result = false
+    friendrequest = UserAlarm.find_by(user_id: self.id, send_user_id: other_user.id)
+    if friendrequest.present?
+      result = true
+    end
+  end
+
 end

@@ -10,13 +10,13 @@ class FriendsController < ApplicationController
     @user1 = User.find(params[:id])
     @user2 = current_user
 
-    if @user1.id > @user2.id ##중복생성 방지위해 항상 id값이 큰 것이 plyaer2_id에 저장되도록
-      @friendship = Friend.find_by(user1_id: @user1.id, user2_id: @user2.id)
+    if @user1.id < @user2.id ##중복생성 방지위해 항상 id값이 큰 것이 plyaer2_id에
+      friendship = Friend.find_by(user1_id: @user1.id, user2_id: @user2.id)
     else
-      @friendship = Friend.find_by(user1_id: @user2.id, user2_id: @user1.id)
+      friendship = Friend.find_by(user1_id: @user2.id, user2_id: @user1.id)
     end
 
-    @friendship.destroy
+    friendship.destroy
 
   end
 end

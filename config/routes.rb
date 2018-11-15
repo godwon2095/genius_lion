@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     member do
       post :allow_friend
       delete :reject_friend
+      delete :cancel_friend
       delete :delete_alarm, as: 'delete'
     end
   end
