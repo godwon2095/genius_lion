@@ -14,6 +14,8 @@ gem 'figaro'
 gem 'tinymce-rails'
 gem 'tinymce-rails-imageupload', github: 'PerfectlyNormal/tinymce-rails-imageupload'
 gem 'activeadmin_addons'
+gem 'rails-i18n'
+gem 'devise-i18n'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.1'
