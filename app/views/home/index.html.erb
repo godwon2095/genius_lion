@@ -1,3 +1,32 @@
 <% if user_signed_in? %>
   <%= link_to "알람", user_alarm_path(current_user) %>
+
+<br><br>
+
+<h2>채널 선택</h2>
+<% Channel.all.each do |c| %>
+  <%= link_to "#{c.game.title}", channel_path(c) %><br>
+<% end %>
+
+<br><br>
+
+<% if user_signed_in? %>
+  <%= link_to '방 만들기', '#', remote: true, id: "create_room" %>
+
+  <div id="room_create_form">
+    <%= form_for @room do |f| %>
+      <%= f.hidden_field :user_id, value: current_user.id %>
+
+      <%= f.label :title, '방 제목' %>
+      <%= f.text_field :title %><br>
+
+      <%= f.label :channel, '게임' %>
+      <%= f.select:channel_id, options_for_select(Channel.all.map{|c|[c.game.title, c.id]}) %><br>
+
+      <%= f.label :password, '비밀번호' %>
+      <%= f.password_field :password %><br>
+
+      <%= f.submit %>
+    <% end %>
+  </div>
 <% end %>

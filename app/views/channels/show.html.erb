@@ -1,0 +1,8 @@
+<%= @channel.game.title %> 채널 <br><br>
+방 리스트 :<br>
+
+<% @rooms.each do |room| %>
+  <ul>
+    <li><%= room.room_number %> : <%= link_to "#{room.title}", room_path(room) %> 방장 : <%= room.user.name %></li>
+  </ul>
+<% end %>

@@ -6,22 +6,36 @@ class User < ApplicationRecord
 
   enum gender: [:default, :male, :female, :others]
 
+  has_one :identity, dependent: :destroy
   has_many :friends, dependent: :destroy
   has_many :user_alarms, dependent: :destroy
+  has_many :rooms, dependent: :destroy
+  has_many :players, dependent: :destroy
+  has_many :readies, dependent: :destroy
 
   def self.find_for_oauth(auth, signed_in_resource = nil)
     identity = Identity.find_for_oauth(auth)
     user = signed_in_resource ? signed_in_resource : identity.user
 
     if user.nil? #user가 nil인 경우 user를 새로 만든다.
-      email = auth.info.email #이미 있는 이메일인지 확인
-      user = User.where(email: email).first
+      auth_email = auth.info.email #이미 있는 이메일인지 확인
+      user = User.where(email: auth_email).first
       unless user.present? #email에 해당하는 user가 없는 경우 새로 생성한
-        user = User.new(
-          email: auth.info.email,
-          name: auth.info.name,
-          password: Devise.friendly_token[0,20]
-        )
+        if auth.info.email.nil?
+          user = User.new(
+              email: "kakaoUser@#{auth.uid}.com",
+              image: auth.info.image,
+              name: auth.info.name,
+              password: Devise.friendly_token[0,20]
+            )
+        else
+          user = User.new(
+              email: auth.info.email,
+              image: auth.info.image,
+              name: auth.info.name,
+              password: Devise.friendly_token[0,20]
+          )
+        end
         # user.skip_confirmation! # 이메일 인증이 있는 경우 인증을 자동 완료해줌
         user.save!
       end
@@ -63,6 +77,7 @@ class User < ApplicationRecord
     return result
   end
 
+<<<<<<< HEAD
   def received_friend(other_user)
     result = false
     friendrequest = UserAlarm.find_by(user_id: self.id, send_user_id: other_user.id)
@@ -71,4 +86,17 @@ class User < ApplicationRecord
     end
   end
 
+=======
+  def is_ready(room)
+    Ready.find_by(user: self, room: room).present?
+  end
+
+  # def as_json(*)
+  #   super.tap do |hash|
+  #     hash[:channel_names] = platforms.map(&:title)
+  #     hash[:channels] = platforms.map{|platform| Hash[:title, platform.title, :followers_size, UserPlatform.find_platform(platform.title, self).followers_size]}
+  #     hash[:birth_date] = influencer.birth
+  #   end
+  # end
+>>>>>>> 65e28f0bf85bcdf444be188a55bda660b3aa4728
 end

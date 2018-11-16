@@ -15,4 +15,10 @@
  *= stub active_admin
  */
 
-.
+#room_create_form {
+  display: none;
+}
+
+ul {
+  all: unset;
+}

@@ -14,6 +14,11 @@ Rails.application.routes.draw do
       delete :reject_friend
       delete :cancel_friend
       delete :delete_alarm, as: 'delete'
+  resources :rooms, only: [:create, :show, :edit, :update, :destroy]
+  resources :channels, only: [:show]
+  resources :readies, only: [:toggle] do
+    member do
+      post :toggle
     end
   end
 
@@ -28,6 +33,8 @@ Rails.application.routes.draw do
   devise_scope :user do
     get 'users/before_sign_in' => "users/sessions#before_sign_in", as: 'before_sign_in'
   end
+
+  post '/tinymce_assets' => 'tinymce_assets#create'
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

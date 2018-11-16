@@ -1,0 +1,4 @@
+<h1>this is room's show page</h1>
+<%= @room.id %><br>
+
+<%= link_to current_user.is_ready(@room) ? "레디완료" : "레디하기", toggle_ready_path(@room), method: :post %>

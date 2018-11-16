@@ -16,6 +16,7 @@ Devise.setup do |config|
 
   config.omniauth :google_oauth2, ENV["GOOGLE_APP_ID"], ENV["GOOGLE_SECRET_KEY"], {}
   config.omniauth :kakao, ENV["KAKAO_KEY"], :redirect_path => "/users/auth/kakao/callback"
+  config.omniauth :naver, ENV["NAVER_CLIENT_ID"], ENV["NAVER_SECRET_KEY"], {}
 
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,

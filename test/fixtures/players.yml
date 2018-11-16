@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  room: one
+  state: 1
+  score: 1
+
+two:
+  user: two
+  room: two
+  state: 1
+  score: 1

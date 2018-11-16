@@ -5,11 +5,6 @@ ActiveAdmin.register Game do
   index do
   selectable_column
   id_column
-    column :image do |game|
-      if game.image?
-        image_tag game.image.url, class: "admin-indexImage"
-      end
-    end
     column :title
     column :created_at
     column :updated_at
