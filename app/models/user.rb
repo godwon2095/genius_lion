@@ -77,7 +77,6 @@ class User < ApplicationRecord
     return result
   end
 
-<<<<<<< HEAD
   def received_friend(other_user)
     result = false
     friendrequest = UserAlarm.find_by(user_id: self.id, send_user_id: other_user.id)
@@ -86,7 +85,6 @@ class User < ApplicationRecord
     end
   end
 
-=======
   def is_ready(room)
     Ready.find_by(user: self, room: room).present?
   end
@@ -98,5 +96,4 @@ class User < ApplicationRecord
   #     hash[:birth_date] = influencer.birth
   #   end
   # end
->>>>>>> 65e28f0bf85bcdf444be188a55bda660b3aa4728
 end

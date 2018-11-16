@@ -14,6 +14,8 @@ Rails.application.routes.draw do
       delete :reject_friend
       delete :cancel_friend
       delete :delete_alarm, as: 'delete'
+    end
+  end
   resources :rooms, only: [:create, :show, :edit, :update, :destroy]
   resources :channels, only: [:show]
   resources :readies, only: [:toggle] do
