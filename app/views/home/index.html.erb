@@ -2,6 +2,15 @@
   <%= link_to "알람", user_alarm_path(current_user) %>
 <% end %>
 
+<h2>루비 랭킹</h2>
+<ul class="">
+  <% @users.each do |user| %>
+    <li>
+      <%= user.name %> | <%= user.ruby_count %>
+    </li>
+  <% end %>
+<ul>
+
 <br><br>
 
 <h2>채널 선택</h2>
