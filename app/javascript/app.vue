@@ -7,6 +7,7 @@
     <f7-view url="/main/"></f7-view>
   </f7-app>
 </template>
+
 <script>
   import { f7App, f7Panel, f7View, f7Statusbar } from 'framework7-vue';
   import routes from './routes';
@@ -29,7 +30,7 @@
         f7Params: {
           theme,
           routes,
-          id: 'io.framework7.testapp',
+          id: 'io.framework7.app',
         },
       };
     },
