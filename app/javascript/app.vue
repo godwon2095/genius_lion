@@ -1,10 +1,10 @@
 <template>
-  <f7-app :params="f7Params">
+  <f7-app :params="f7Params" color-theme="red">
     <f7-statusbar></f7-statusbar>
     <f7-panel left cover>
-      <f7-view url="/panel-left/" links-view=".view-main"></f7-view>
+      <f7-view url="/left-panel/" links-view=".view-main"></f7-view>
     </f7-panel>
-    <f7-view url="/main/" :main="true" class="ios-edges"></f7-view>
+    <f7-view url="/main/"></f7-view>
   </f7-app>
 </template>
 <script>
