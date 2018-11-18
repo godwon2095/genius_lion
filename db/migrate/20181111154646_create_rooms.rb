@@ -9,7 +9,7 @@ class CreateRooms < ActiveRecord::Migration[5.2]
       t.string :room_number
       t.text :notice
       t.string :image
-      t.integer :step
+      t.integer :step, default: 0
       t.datetime :changed_at
 
       t.timestamps

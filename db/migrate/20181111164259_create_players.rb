@@ -4,7 +4,7 @@ class CreatePlayers < ActiveRecord::Migration[5.2]
       t.references :user, foreign_key: true
       t.references :room, foreign_key: true
       t.boolean :is_guardian, default: false
-      t.integer :state
+      t.integer :state, default: 0
       t.integer :score, default: 0
       t.datetime :changed_at
 

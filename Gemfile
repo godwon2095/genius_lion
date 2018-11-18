@@ -16,6 +16,9 @@ gem 'tinymce-rails-imageupload', github: 'PerfectlyNormal/tinymce-rails-imageupl
 gem 'activeadmin_addons'
 gem 'rails-i18n'
 gem 'devise-i18n'
+gem 'jquery-rails'
+gem 'pusher'
+gem 'timepiece'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.1'

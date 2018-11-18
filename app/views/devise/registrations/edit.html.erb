@@ -4,6 +4,13 @@
   <%= devise_error_messages! %>
 
   <div class="field">
+    <%= image_tag(current_user.image.present? ? current_user.image : "default_profile.jpg", id: "profile_image", width: 150, height: 150) %><br>
+    <a href="#" class="profile-upload-margin" id="edit_upload_button">프로필 사진</a>
+    <%= f.file_field :image, class: "hidden-file-field", id: "edit_image_upload" %>
+    <input type="file" id="filechooser" class="display-none">
+  </div><br>
+
+  <div class="field">
     <%= f.label :email, '이메일' %><br />
     <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
   </div>
@@ -48,5 +55,6 @@
 
   <div class="actions">
     <%= f.submit "Update" %>
+    <%= f.submit 'hidden_upload_button',  class: "display-none" %>
   </div>
 <% end %>

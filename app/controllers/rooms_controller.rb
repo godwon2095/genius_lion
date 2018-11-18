@@ -16,9 +16,45 @@ class RoomsController < ApplicationController
 
   def show
     @room = Room.find(params[:id])
+    @game = @room.channel.game
+    @guardian = Player.find_by(room: @room, is_guardian: true)
+    @player = Player.find_by(user: current_user, room: @room)
   end
 
-  private
+  def game_start
+    room = Room.find(params[:id])
+    game_type = room.channel.game
+    if room.step == "before_start"
+      if game_type == Game.find_by(title: "좀비게임")
+        readies = room.readies
+        readies.each do |ready|
+          Player.create(room: room, user: ready.user)
+        end
+        players = room.players
+        players.sample(players.size * 1/2).each do |player|
+          player.update(state: "first_zombie")
+        end
+
+        room.update(step: "zombie_start")
+
+        # 푸셔코드 짜주기 ----
+        redirect_back(fallback_location: root_path)
+
+      elsif game_type == Game.find_by(title: "신분교환")
+
+      end
+    else
+      redirect_to root_path, notice: "잘못 된 요청입니다."
+    end
+  end
+
+  def start_zombie_round1
+    byebug
+    room = Room.find(params[:id])
+    room.update(step: "zombie_round1")
+  end
+
+
   def room_create_params
     params.require(:room).permit(:user_id, :channel_id, :title, :password)
   end
