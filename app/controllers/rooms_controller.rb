@@ -21,7 +21,7 @@ class RoomsController < ApplicationController
     @player = Player.find_by(user: current_user, room: @room)
   end
 
-  def game_start
+  def game_start ## 게임시작 될 때 사용되는 부분 모든 게임에서 거쳐감
     room = Room.find(params[:id])
     game_type = room.channel.game
     if room.step == "before_start"
@@ -31,8 +31,8 @@ class RoomsController < ApplicationController
           Player.create(room: room, user: ready.user)
         end
         players = room.players
-        players.sample(players.size * 1/2).each do |player|
-          player.update(state: "first_zombie")
+        players.sample(players.size * 1/5).each do |player|
+          player.update(state: "first_zombie", changed_at: Time.now - 600)
         end
 
         room.update(step: "zombie_start")
@@ -48,13 +48,23 @@ class RoomsController < ApplicationController
     end
   end
 
-  def start_zombie_round1
-    byebug
-    room = Room.find(params[:id])
-    room.update(step: "zombie_round1")
+  def start_zombie_round1 ## 좀비 게임 라운드 1이 시잘 되면 정체 잠깐 알려주고 라운드1 로 넘어가도록
+    @room = Room.find(params[:id])
+    @room.update(step: "zombie_round1", changed_at: Time.now)
+    Player.where(room: @room).each do |player|
+      player.items.destroy_all
+      player.items << Item.find_by(name: "해독제")
+    end
+
+    render json: @room, status: :ok
+  end
+
+  def zombie_round1
+
   end
 
 
+  private
   def room_create_params
     params.require(:room).permit(:user_id, :channel_id, :title, :password)
   end

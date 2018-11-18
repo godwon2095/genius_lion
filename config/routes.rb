@@ -12,7 +12,8 @@ Rails.application.routes.draw do
   resources :rooms, only: [:create, :show, :edit, :update, :destroy] do
     member do
       post :game_start, as: :game_start
-      post :start_zombie_round1, as: :zombie_round1, defaults: {format: 'js'}
+      post :start_zombie_round1, as: :zombie_round1
+      get :zombie_round1, as: :round1_zombie
     end
   end
   resources :channels, only: [:show]
