@@ -12,6 +12,7 @@
     </f7-navbar>
 
     <f7-list class="searchbar-hide-on-search">
+      <f7-link back>Back</f7-link>
       <f7-list-item title="About Framework7" link="/about/">
         <f7-icon slot="media" icon="icon-f7"></f7-icon>
       </f7-list-item>
