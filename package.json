@@ -1,5 +1,14 @@
 {
   "name": "liongenius",
   "private": true,
-  "dependencies": {}
+  "dependencies": {
+    "@rails/webpacker": "https://github.com/rails/webpacker",
+    "rails-erb-loader": "^5.5.0",
+    "vue": "^2.5.17",
+    "vue-loader": "^15.4.2",
+    "vue-template-compiler": "^2.5.17"
+  },
+  "devDependencies": {
+    "webpack-dev-server": "^3.1.10"
+  }
 }

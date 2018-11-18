@@ -3,6 +3,9 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.4.2'
 
+gem 'webpacker', git: 'https://github.com/rails/webpacker.git'
+
+
 gem 'devise'
 gem 'activeadmin'
 gem 'carrierwave'
