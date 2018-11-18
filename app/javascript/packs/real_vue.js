@@ -5,18 +5,40 @@
 // like app/views/layouts/application.html.erb.
 // All it does is render <div>Hello Vue</div> at the bottom of the page.
 
-import Vue from 'vue'
-import App from '../app.vue'
+// import Vue from 'vue'
+// import App from '../app.vue'
+//
+// document.addEventListener('DOMContentLoaded', () => {
+//   const el = document.body.appendChild(document.createElement('hello'))
+//   const app = new Vue({
+//     el,
+//     render: h => h(App)
+//   })
+//
+//   console.log(app)
+// })
+
+
+
+import Vue from 'vue';
+import Framework7 from 'framework7/framework7.esm.bundle.js';
+import Framework7Vue from 'framework7-vue/framework7-vue.esm.bundle.js';
+
+Framework7.use(Framework7Vue);
+
+import App from '../app.vue';
 
 document.addEventListener('DOMContentLoaded', () => {
-  const el = document.body.appendChild(document.createElement('hello'))
+  var element = document.getElementById("app");
+  console.log("wonno")
   const app = new Vue({
-    el,
-    render: h => h(App)
-  })
+    el: element,
+    // data: { wonno: JSON.parse(element.dataset.wonno) },
+    render: (h) => h(App),
+  });
+  app;
+});
 
-  console.log(app)
-})
 
 
 // The above code uses Vue without the compiler, which means you cannot
@@ -48,9 +70,9 @@ document.addEventListener('DOMContentLoaded', () => {
 //
 //
 //
-// If the project is using turbolinks, install 'vue-turbolinks':
+// If the using turbolinks, install 'vue-turbolinks':
 //
-// yarn add vue-turbolinks
+// yarn add 'vue-turbolinks'
 //
 // Then uncomment the code block below:
 //
@@ -63,10 +85,8 @@ document.addEventListener('DOMContentLoaded', () => {
 // document.addEventListener('turbolinks:load', () => {
 //   const app = new Vue({
 //     el: '#hello',
-//     data: () => {
-//       return {
-//         message: "Can you say hello?"
-//       }
+//     data: {
+//       message: "Can you say hello?"
 //     },
 //     components: { App }
 //   })

@@ -1,0 +1,23 @@
+// Run this example by adding <%%= javascript_pack_tag 'hello_erb' %> to the head of your layout file,
+// like app/views/layouts/application.html.erb. Don't forget to uncomment erb tag after adding it to your layout file.
+
+<% name = 'Erb' %>
+
+console.log('Hello world from <%= name %>')
+
+import Vue from 'vue';
+import Framework7 from 'framework7/framework7.esm.bundle.js';
+import Framework7Vue from 'framework7-vue/framework7-vue.esm.bundle.js';
+
+Framework7.use(Framework7Vue);
+
+import TestApp from '../test_app.vue';
+
+document.addEventListener('DOMContentLoaded', () => {
+  console.log("개꿀밥도둑")
+  const test_app = new Vue({
+    el: '#test_app',
+    render: (h) => h(TestApp)
+  });
+  test_app;
+});
