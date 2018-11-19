@@ -19,6 +19,13 @@ class RoomsController < ApplicationController
     @game = @room.channel.game
     @guardian = Player.find_by(room: @room, is_guardian: true)
     @player = Player.find_by(user: current_user, room: @room)
+    @players = Player.where(room: @room)
+
+    if @player.present?
+      ids_1 = Touch.where(player1_id: @player.id).pluck('player2_id')
+      ids_2 = Touch.where(player2_id: @player.id).pluck('player1_id')
+      @touched_ids = ids_1 + ids_2
+    end
   end
 
   def game_start # 게임이 시작될 때
@@ -29,12 +36,16 @@ class RoomsController < ApplicationController
         readies = room.readies
         readies.each do |ready|
           Player.create(room: room, user: ready.user)
-          ready.user.join_game_count += 1
-          ready.user.save
         end
+        User.includes(:players).where
         players = room.players
         players.sample(players.size * 1/5).each do |player|
           player.update(state: "first_zombie", changed_at: Time.now - 600)
+        end
+
+        players.each do |player|
+          tmp = player.user.join_game_count
+          player.user.update(join_game_count: tmp + 1)
         end
 
         room.update(step: "zombie_start")
