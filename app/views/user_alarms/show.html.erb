@@ -1,0 +1,12 @@
+<div class = "">
+  <span>알람페이지</span>
+  <% if @user_alarms.present? %>
+    <% @user_alarms.each do |user_alarm| %>
+      <% if user_alarm.alarm_type == "friend" %>
+        <span><%= user_alarm.body %><span>
+        <%= link_to '수락', allow_friend_user_alarm_path(user_alarm), class: "float-right", method: :post %>
+        <%= link_to '거절', reject_friend_user_alarm_path(user_alarm), class: "float-right", method: :delete %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>
