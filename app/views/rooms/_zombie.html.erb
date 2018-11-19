@@ -1,0 +1,15 @@
+<% if @room.step == "before_start" %>
+  <% if current_user == @guardian.user %>
+      <%= link_to '게임 시작', game_start_room_path(@room), method: :post, id: "zombie_game_start_button" %>
+  <% else %>
+    <%= link_to current_user.is_ready(@room) ? "레디완료" : "레디하기", toggle_ready_path(@room), method: :post %><br>
+  <% end %>
+<% elsif @room.step == "zombie_start" %>
+  <div id="zombie_before_round">
+    <% if @player.state == "first_zombie" %>
+      당신은 좀비 입니다.
+    <% else %>
+      당신은 인간 입니다.
+    <% end %>
+  </div>
+<% end %>

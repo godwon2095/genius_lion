@@ -16,7 +16,12 @@ Rails.application.routes.draw do
       delete :delete_alarm, as: 'delete'
     end
   end
-  resources :rooms, only: [:create, :show, :edit, :update, :destroy]
+  resources :rooms, only: [:create, :show, :edit, :update, :destroy] do
+    member do
+      post :game_start, as: :game_start
+      post :start_zombie_round1, as: :zombie_round1, defaults: {format: 'js'}
+    end
+  end
   resources :channels, only: [:show]
   resources :readies, only: [:toggle] do
     member do
@@ -37,6 +42,7 @@ Rails.application.routes.draw do
   end
 
   post '/tinymce_assets' => 'tinymce_assets#create'
+  post '/direct_upload' => 'uploads#direct_upload', as: :direct_upload
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

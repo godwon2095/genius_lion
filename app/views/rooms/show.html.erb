@@ -1,4 +1,11 @@
-<h1>this is room's show page</h1>
-<%= @room.id %><br>
+<div id="room_show" data-id="<%= @room.id %>">
+  <h1><%= @room.title %></h1>
+  <%= @room.id %>
+  <br>
 
-<%= link_to current_user.is_ready(@room) ? "레디완료" : "레디하기", toggle_ready_path(@room), method: :post %>
+  <% if @game == Game.find_by(title: "좀비게임")  %>
+    <%= render partial: "zombie" %>
+  <% elsif @game == Game.find_by(title: "신분교환") %>
+    <%= render partial: "exchange_identity" %>
+  <% end %>
+</div>

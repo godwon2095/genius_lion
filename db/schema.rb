@@ -84,7 +84,7 @@ ActiveRecord::Schema.define(version: 2018_11_15_040835) do
     t.integer "user_id"
     t.integer "room_id"
     t.boolean "is_guardian", default: false
-    t.integer "state"
+    t.integer "state", default: 0
     t.integer "score", default: 0
     t.datetime "changed_at"
     t.datetime "created_at", null: false
@@ -110,7 +110,7 @@ ActiveRecord::Schema.define(version: 2018_11_15_040835) do
     t.string "room_number"
     t.text "notice"
     t.string "image"
-    t.integer "step"
+    t.integer "step", default: 0
     t.datetime "changed_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
