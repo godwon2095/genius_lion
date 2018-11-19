@@ -1,6 +1,6 @@
 <div class="">
   <% if current_user == @user %>
-      나를 친구로 추가할 수 없습니다.
+      <%= link_to "친구목록", friend_path(current_user) %>
     <% elsif current_user.is_friend(@user) == true %>
       <%= link_to "친구끊기", delete_friend_path(:friend_id => @user.id), method: 'delete' %>
     <% elsif current_user.received_friend(@user) == true %>

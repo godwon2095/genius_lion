@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   resources :profiles, only: [:show]
   resources :ranks, only: [:show]
-  resources :friends, only: [:create] do
+  resources :friends, only: [:create, :show] do
     member do
       get :add_friend, as: 'add'
       delete :delete_friend, as: 'delete'
