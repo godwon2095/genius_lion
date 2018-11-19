@@ -89,10 +89,6 @@ class User < ApplicationRecord
     Ready.find_by(user: self, room: room).present?
   end
 
-  def friend_users(user)
-    friends = user.friends
-    tmp_ids1 = Friend.where(user1: user).ids
-  end
 
   # def as_json(*)
   #   super.tap do |hash|
