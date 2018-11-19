@@ -31,7 +31,7 @@ class RoomsController < ApplicationController
           Player.create(room: room, user: ready.user)
         end
         players = room.players
-        players.sample(players.size * 1/2).each do |player|
+        players.sample(players.size * 1/5).each do |player|
           player.update(state: "first_zombie")
         end
 
