@@ -67,6 +67,8 @@ ActiveRecord::Schema.define(version: 2018_11_15_040835) do
     t.string "title"
     t.string "image"
     t.text "content"
+    t.integer "min_num"
+    t.integer "max_num"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
