@@ -14,18 +14,20 @@ class FriendsController < ApplicationController
   def delete_friend #친구 삭제
     @user1 = User.find(params[:id])
     @user2 = current_user
-
     if @user1.id < @user2.id ##중복생성 방지위해 항상 id값이 큰 것이 plyaer2_id에
       friendship = Friend.find_by(user1_id: @user1.id, user2_id: @user2.id)
     else
       friendship = Friend.find_by(user1_id: @user2.id, user2_id: @user1.id)
     end
-
     friendship.destroy
 
     respond_to do |format|
       format.html { redirect_back(fallback_location: root_path)}
       format.json { render json: @resource }
     end
+  end
+
+  def show
+
   end
 end

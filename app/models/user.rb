@@ -89,6 +89,17 @@ class User < ApplicationRecord
     Ready.find_by(user: self, room: room).present?
   end
 
+  def win_game_rate #게임 랭킹에 쓰이는 게임 승률
+    if self.join_game_count.present?
+    ((self.win_game_count.to_f / self.join_game_count) * 100).to_i
+    end
+  end
+
+  def self.sorted_by_win_game_rate #게임 랭킹에 쓰이는 게임 승률
+    User.all.sort_by(&:win_game_rate).reverse
+  end
+
+
   def friend_users(user)
     friends = user.friends
     tmp_ids1 = Friend.where(user1: user).ids
