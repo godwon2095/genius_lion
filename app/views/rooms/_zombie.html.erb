@@ -11,5 +11,7 @@
     <% else %>
       당신은 인간 입니다.
     <% end %>
+
+    <%= link_to '라운드1 시작', zombie_round1_room_path(@room), method: :post %>
   </div>
 <% end %>

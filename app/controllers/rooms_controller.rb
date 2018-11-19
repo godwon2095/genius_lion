@@ -21,7 +21,7 @@ class RoomsController < ApplicationController
     @player = Player.find_by(user: current_user, room: @room)
   end
 
-  def game_start
+  def game_start # 게임이 시작될 때
     room = Room.find(params[:id])
     game_type = room.channel.game
     if room.step == "before_start"
@@ -29,32 +29,53 @@ class RoomsController < ApplicationController
         readies = room.readies
         readies.each do |ready|
           Player.create(room: room, user: ready.user)
+          ready.user.join_game_count += 1
+          ready.user.save
         end
         players = room.players
         players.sample(players.size * 1/5).each do |player|
-          player.update(state: "first_zombie")
+          player.update(state: "first_zombie", changed_at: Time.now - 600)
         end
 
         room.update(step: "zombie_start")
 
         # 푸셔코드 짜주기 ----
-        redirect_back(fallback_location: root_path)
+        respond_to do |format|
+          format.html { redirect_back(fallback_location: root_path) }
+          format.json { render json: @resource }
+        end
 
       elsif game_type == Game.find_by(title: "신분교환")
-
+        # 신분게임 코드 짜주기 ----
       end
     else
-      redirect_to root_path, notice: "잘못 된 요청입니다."
+      respond_to do |format|
+        format.html { redirect_to root_path, notice: "잘못 된 요청입니다." }
+        format.json { render json: @resource.errors }
+      end
     end
   end
 
-  def start_zombie_round1
-    byebug
-    room = Room.find(params[:id])
-    room.update(step: "zombie_round1")
+  def start_zombie_round1 # 좀비인지 인간인지 카드잠깐 보여주고 방의 상태를 zombie_round1 으로 바꿈
+    @room = Room.find(params[:id])
+    @room.update(step: "zombie_round1", changed_at: Time.now)
+    Player.where(room: @room).each do |player|
+      player.items.destroy_all
+      player.items << Item.find_by(name: "해독제")
+    end
+
+    respond_to do |format|
+      format.html { redirect_back(fallback_location: root_path) }
+      format.json { render json: @room, status: :ok }
+    end
+  end
+
+  def start_zombie_round2 # 라운드 1의 시간이 끝나면 자동으로 라운드2로 넘어가는 부분
+
   end
 
 
+  private
   def room_create_params
     params.require(:room).permit(:user_id, :channel_id, :title, :password)
   end
