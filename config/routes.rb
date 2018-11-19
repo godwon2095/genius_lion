@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   root 'home#index'
 
   resources :profiles, only: [:show]
+  resources :ranks, only: [:show]
   resources :friends, only: [:create] do
     member do
       get :add_friend, as: 'add'
