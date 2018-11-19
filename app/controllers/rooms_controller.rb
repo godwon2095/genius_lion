@@ -56,7 +56,7 @@ class RoomsController < ApplicationController
     end
   end
 
-  def start_zombie_round1 # 좀비인지 인간인지 카드잠깐 보여주고 방의 상태를 zombie_round1 으로 바꿈
+  def start_zombie_round1 ## 좀비 게임 라운드 1이 시작 되면 정체 잠깐 알려주고 라운드1 로 넘어가도록
     @room = Room.find(params[:id])
     @room.update(step: "zombie_round1", changed_at: Time.now)
     Player.where(room: @room).each do |player|

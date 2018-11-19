@@ -14,4 +14,6 @@
 
     <%= link_to '라운드1 시작', zombie_round1_room_path(@room), method: :post %>
   </div>
+<% elsif @room.step == "zombie_round1" %>
+  라운드 1
 <% end %>
