@@ -4,9 +4,16 @@ Rails.application.routes.draw do
   resources :profiles, only: [:show]
   resources :friends, only: [:create] do
     member do
-      get :add_friend, defaults: {format: 'js'}, as: 'add'
-      post :allow_friend, defaults: {format: 'js'}, as: 'allow'
+      get :add_friend, as: 'add'
       delete :delete_friend, as: 'delete'
+    end
+  end
+  resources :user_alarms, only: [:show] do
+    member do
+      post :allow_friend
+      delete :reject_friend
+      delete :cancel_friend
+      delete :delete_alarm, as: 'delete'
     end
   end
   resources :rooms, only: [:create, :show, :edit, :update, :destroy] do
