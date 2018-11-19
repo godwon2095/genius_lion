@@ -100,6 +100,11 @@ class User < ApplicationRecord
   end
 
 
+  def friend_users(user)
+    friends = user.friends
+    tmp_ids1 = Friend.where(user1: user).ids
+  end
+
   # def as_json(*)
   #   super.tap do |hash|
   #     hash[:channel_names] = platforms.map(&:title)

@@ -4,6 +4,11 @@ class FriendsController < ApplicationController
     @user = User.find(params[:id])
     send_user = current_user
     UserAlarm.create(user: @user, send_user_id: send_user.id, body: "#{current_user.name}님이 친구 요청을 보냈습니다.", alarm_type: "friend")
+
+    respond_to do |format|
+      format.html { redirect_back(fallback_location: root_path)}
+      format.json { render json: @resource }
+    end
   end
 
   def delete_friend #친구 삭제
@@ -15,8 +20,14 @@ class FriendsController < ApplicationController
       friendship = Friend.find_by(user1_id: @user2.id, user2_id: @user1.id)
     end
     friendship.destroy
+
+    respond_to do |format|
+      format.html { redirect_back(fallback_location: root_path)}
+      format.json { render json: @resource }
+    end
   end
 
   def show
+
   end
 end

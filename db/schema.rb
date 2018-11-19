@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_15_040835) do
+ActiveRecord::Schema.define(version: 2018_11_19_155700) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -82,6 +82,36 @@ ActiveRecord::Schema.define(version: 2018_11_15_040835) do
     t.index ["user_id"], name: "index_identities_on_user_id"
   end
 
+  create_table "items", force: :cascade do |t|
+    t.integer "game_id"
+    t.string "name"
+    t.string "image"
+    t.text "information"
+    t.integer "state"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_id"], name: "index_items_on_game_id"
+  end
+
+  create_table "items_players", id: false, force: :cascade do |t|
+    t.integer "item_id"
+    t.integer "player_id"
+    t.index ["item_id"], name: "index_items_players_on_item_id"
+    t.index ["player_id"], name: "index_items_players_on_player_id"
+  end
+
+  create_table "player_alarms", force: :cascade do |t|
+    t.integer "player_id"
+    t.integer "send_player_id"
+    t.integer "alarm_type"
+    t.string "body"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["player_id", "send_player_id", "body"], name: "index_player_alarms_on_player_id_and_send_player_id_and_body", unique: true
+    t.index ["player_id"], name: "index_player_alarms_on_player_id"
+    t.index ["send_player_id"], name: "index_player_alarms_on_send_player_id"
+  end
+
   create_table "players", force: :cascade do |t|
     t.integer "user_id"
     t.integer "room_id"
@@ -119,6 +149,18 @@ ActiveRecord::Schema.define(version: 2018_11_15_040835) do
     t.integer "channel_id"
     t.index ["channel_id"], name: "index_rooms_on_channel_id"
     t.index ["user_id"], name: "index_rooms_on_user_id"
+  end
+
+  create_table "touches", force: :cascade do |t|
+    t.integer "room_id"
+    t.integer "player1_id"
+    t.integer "player2_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["player1_id", "player2_id", "room_id"], name: "index_touches_on_player1_id_and_player2_id_and_room_id", unique: true
+    t.index ["player1_id"], name: "index_touches_on_player1_id"
+    t.index ["player2_id"], name: "index_touches_on_player2_id"
+    t.index ["room_id"], name: "index_touches_on_room_id"
   end
 
   create_table "user_alarms", force: :cascade do |t|
