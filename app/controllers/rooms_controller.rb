@@ -116,7 +116,7 @@ class RoomsController < ApplicationController
         end
       end
     end
-    @room.update(step: "zombie_round3", changed_at: Time.now, content: "인간 : #{Player.calculate_person(@room)}   좀비 : #{Player.calculate_zombie(@room)}")
+    @room.update(step: "zombie_round3", changed_at: Time.now, notice: "인간 : #{Player.calculate_person(@room)}   좀비 : #{Player.calculate_zombie(@room)}")
     ## 3라운드로 넘어가는 푸셔코드 짜기
     respond_to do |format|
       format.html { redirect_back(fallback_location: root_path) }
@@ -137,7 +137,7 @@ class RoomsController < ApplicationController
         end
       end
     end
-    @room.update(step: "zombie_end", changed_at: Time.now, content: "인간 : #{Player.calculate_person(@room)}   좀비 : #{Player.calculate_zombie(@room)}")
+    @room.update(step: "zombie_end", changed_at: Time.now, notice: "인간 : #{Player.calculate_person(@room)}   좀비 : #{Player.calculate_zombie(@room)}")
     ## 게임 종료시켜주는 푸셔코드 짜기
 
     ## 이겼을 시 루비 지급되는 부분
@@ -152,7 +152,7 @@ class RoomsController < ApplicationController
       winners = room_players.where(state: "first_zombie")
       winners.each do |winner|
         tmp = winner.user.ruby_count
-        winner.user(update: tmp + 3) ## 최초 좀비가 이길 시 루비 3개씩 지급
+        winner.user(ruby_count: tmp + 3) ## 최초 좀비가 이길 시 루비 3개씩 지급
       end
     end
 

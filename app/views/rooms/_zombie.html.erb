@@ -1,5 +1,5 @@
 <% if @room.step == "before_start" %>
-
+  게임 시작 전
 
   <% if current_user == @guardian.user %>
       <%= link_to '게임 시작', game_start_room_path(@room), method: :post, id: "zombie_game_start_button" %>
@@ -9,6 +9,7 @@
 
 
 <% elsif @room.step == "zombie_start" %>
+  좀비게임 시작
 
 
   <div id="zombie_before_round">
@@ -25,68 +26,39 @@
 <% elsif @room.step == "zombie_round1" %>
 
 
-  <%= image_tag(@player.user.image.present? ? @player.user.image : "default_profile.jpg", width: 30, height: 30) %><%= @player.user.name %> (본인)
+  좀비게임 라운드 1
 
-  <%= link_to '내 아이템', room_items_path(@room) %>
-  <br><br>
-  본인 제외 모든 유저 리스트 : <br>
-  <% @players.where.not(user: current_user).each do |player| %>
-    <%= image_tag(player.user.image.present? ? player.user.image : "default_profile.jpg", width: 30, height: 30) %> <%= player.user.name %>
-  <% end %>
+  <%= render partial: "zombie_user_list" %><br>
 
-  <br><br>
-
-  알람 리스트 : <br>
-  <ul>
-    <% @player.player_alarms.each do |player_alarm| %>
-      <li>
-        <span><%= player_alarm.body %></span>
-        <%= link_to ' 거절', player_alarm_path(player_alarm), class: "float-right pre", method: :delete, data: {confirm: "정말 거절하시겠습니까?"} %>
-        <% if player_alarm.alarm_type == "touch" %>
-          <%= link_to '수락 ', allow_touch_path(player_alarm), class: "float-right pre", method: :post, data: {confirm: "정말 터치하시겠습니까?"} %>
-        <% elsif player_alarm.alarm_type == "exchange" %>
-          <%= link_to '수락 ', allow_item_path(player_alarm), class: "float-right pre", method: :post, data: {confirm: "정말 교환시겠습니까?"} %>
-        <% end %>
-      </li>
-    <% end %>
-  </ul>
-
-  <br><br>
-
-  터치 안한 유저리스트 : <br>
-  <ul>
-    <% @players.where.not(id: @touched_ids).where.not(user: current_user).each do |player| %>
-      <li id="player-<%= player.id %>">
-        <div class="row">
-          <div class="col">
-            <%= image_tag(player.user.image.present? ? player.user.image : "default_profile.jpg", width: 30, height: 30) %> <%= player.user.name %>
-          </div>
-          <div class="col">
-            <%= link_to 'Touch', send_require_touch_path(player), method: :post, data: {confirm: "정말 #{player.user.name}님에게 터치 요청을 보내시겠습니까?"} %>
-            <%= link_to 'Exchange', send_require_item_path(player), method: :post, data: {confirm: "정말 #{player.user.name}님에게 아이템 교환 요청을 보내시겠습니까?"} %>
-          </div>
-        </div>
-      </li>
-    <% end %>
-  </ul>
-
-  <br><br>
-
-  터치 한 유저리스트 : <br>
-  <ul class="alt" id="untouched-list">
-  <% @players.where(id: @touched_ids).each do |player| %>
-    <li id="player-<%= player.id %>">
-      <div class="row">
-        <div class="col">
-          <%= image_tag(player.user.image.present? ? player.user.image : "default_profile.jpg", width: 30, height: 30) %> <%= player.user.name %>
-        </div>
-        <div class="col">
-          <%= link_to 'Exchange', send_require_item_path(player), method: :post, data: {confirm: "정말 #{player.user.name}님에게 아이템 교환 요청을 보내시겠습니까?"} %>
-        </div>
-      </div>
-    </li>
-    <% end %>
-  </ul>
   <%= link_to '라운드2 시작', zombie_round2_room_path(@room), method: :post %>
+
+
+<% elsif @room.step == "zombie_round2" %>
+
+
+  좀비게임 라운드 2
+
+  <%= render partial: "zombie_user_list" %><br>
+
+  <%= link_to '라운드3 시작', zombie_round3_room_path(@room), method: :post %>
+
+
+<% elsif @room.step == "zombie_round3" %>
+
+
+  좀비게임 라운드 3
+
+  <%= render partial: "zombie_user_list" %><br>
+
+  <%= link_to '게임 종료', zombie_end_room_path(@room), method: :post %>
+
+
+<% elsif @room.step == "zombie_end" %>
+
+
+  좀비게임 종료
+
+  라운드 바뀔 때 터치 안했어도 좀비 안바뀌는거 고치자 성원아
+
 
 <% end %>
