@@ -35,12 +35,19 @@ Rails.application.routes.draw do
   resources :touches, only: [:dontuse] do
     member do
       post :send_require
-      post :allow
+      post :allow ## 터치 요청 수락 (플레이어 알람 컨트롤러 방대해지는 것 막기위해 터치 컨트롤러에서 처리)
     end
   end
   resources :player_alarms, only: :destroy do
     member do
       delete :after_time_destroy ## 게임알람으로 인한 혼란을 방지하기 위해 알람 수락 및 거절 누르지 않을 시 알람 요청 5초 후 사라지게끔 하는부분
+    end
+  end
+  resources :items, only: [:dontuse] do
+    member do
+      get :list
+      post :send_require ## 좀비게임에서 아이템 교환 요청을 보내는 부분
+      post :allow ## 좀비게임에서 플레이어 상호간의 아이템 교환하는 부분
     end
   end
 

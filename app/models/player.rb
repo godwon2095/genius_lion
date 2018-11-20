@@ -2,7 +2,7 @@ class Player < ApplicationRecord
   belongs_to :user
   belongs_to :room
 
-  has_many :touches, dependent: :destroy
+  # has_many :touches, dependent: :destroy
   has_many :player_alarms, dependent: :destroy
 
   has_and_belongs_to_many :items

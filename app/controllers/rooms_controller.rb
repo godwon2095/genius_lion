@@ -1,6 +1,7 @@
 class RoomsController < ApplicationController
   before_action :authenticate_user!
   before_action :private_setting, only: :create
+  before_action :check_ready!, only: :show
 
   def create
     respond_to do |format|
@@ -15,7 +16,6 @@ class RoomsController < ApplicationController
   end
 
   def show
-    @room = Room.find(params[:id])
     @game = @room.channel.game
     @guardian = Player.find_by(room: @room, is_guardian: true)
     @player = Player.find_by(user: current_user, room: @room)
@@ -94,5 +94,13 @@ class RoomsController < ApplicationController
   def private_setting
     @room = Room.new(room_create_params)
     @room.is_private = true if @room.password != ""
+  end
+
+  def check_ready! ## 게임이 시작 된 후 레디 한 유저만 방에 접근할 수 있게
+    @room = Room.find(params[:id])
+    ids = @room.players.pluck('user_id')
+    if @room.step != "before_start"
+      redirect_to root_path, notice: "이 방은 게임이 진행 중입니다." unless ids.include?(current_user.id)
+    end
   end
 end

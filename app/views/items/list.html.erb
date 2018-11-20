@@ -1,0 +1,7 @@
+<br>
+<%= link_to '뒤로가기', room_path(@room) %>
+<br>
+
+<% @items.each do |item| %>
+  <%= item.name %>
+<% end %>

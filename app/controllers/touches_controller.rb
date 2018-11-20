@@ -5,12 +5,14 @@ class TouchesController < ApplicationController
     @player = Player.find(params[:id])
     send_player = Player.find_by(room: @player.room, user: current_user)
     @recieve_user = @player.user
-    player_alarm = PlayerAlarm.create(player_id: @player.id, send_player_id: send_player.id, body: "#{current_user.name}님이 터치 요청을 보냈습니다.", alarm_type: "touch")
+    if PlayerAlarm.find_by(player_id: @player.id, send_player_id: send_player.id, alarm_type: "touch").nil?
+      player_alarm = PlayerAlarm.create(player_id: @player.id, send_player_id: send_player.id, body: "#{current_user.name}님이 터치 요청을 보냈습니다.", alarm_type: "touch")
+    end
     ## 푸셔 코드 짜주기
 
     respond_to do |format|
-      format.html {redirec_back(fallback_location: root_path)}
-      format.json {json: @player}
+      format.html {redirect_back(fallback_location: root_path)}
+      format.json {render json: @player}
     end
   end
 
@@ -30,8 +32,8 @@ class TouchesController < ApplicationController
     @player_alarm.destroy
 
     respond_to do |format|
-      format.html {redirec_back(fallback_location: root_path)}
-      format.json {json: @player}
+      format.html {redirect_back(fallback_location: root_path)}
+      format.json {render json: @player}
     end
   end
 end

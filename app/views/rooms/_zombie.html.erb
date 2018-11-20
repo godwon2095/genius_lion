@@ -1,10 +1,16 @@
 <% if @room.step == "before_start" %>
+
+
   <% if current_user == @guardian.user %>
       <%= link_to '게임 시작', game_start_room_path(@room), method: :post, id: "zombie_game_start_button" %>
   <% else %>
     <%= link_to current_user.is_ready(@room) ? "레디완료" : "레디하기", toggle_ready_path(@room), method: :post %><br>
   <% end %>
+
+
 <% elsif @room.step == "zombie_start" %>
+
+
   <div id="zombie_before_round">
     <% if @player.state == "first_zombie" %>
       당신은 좀비 입니다.
@@ -14,8 +20,14 @@
 
     <%= link_to '라운드1 시작', zombie_round1_room_path(@room), method: :post %>
   </div>
+
+
 <% elsif @room.step == "zombie_round1" %>
+
+
   <%= image_tag(@player.user.image.present? ? @player.user.image : "default_profile.jpg", width: 30, height: 30) %><%= @player.user.name %> (본인)
+
+  <%= link_to '내 아이템', list_item_path(@room) %>
   <br><br>
   본인 제외 모든 유저 리스트 : <br>
   <% @players.where.not(user: current_user).each do |player| %>
@@ -25,15 +37,15 @@
   <br><br>
 
   알람 리스트 : <br>
-  <ul class="alt" id="alarm-list">
-    <% @player.alarms.each do |alarm| %>
-      <li id="alarm-<%= alarm.id %>">
-        <i class="icon fa-envelope"></i> <span class="roomShowAlertFont"><%= alarm.body %></span>
-        <%= link_to ' 거절', alarm_path(alarm), class: "float-right pre", method: :delete, remote: true, data: {confirm: "정말 거절하시겠습니까?"} %>
-        <% if alarm.alarm_type == "touch" %>
-          <%= link_to '수락 ', allow_touch_path(alarm), class: "float-right pre", method: :post, remote: true, data: {confirm: "정말 터치하시겠습니까?"} %>
-        <% elsif alarm.alarm_type == "exchange" %>
-          <%= link_to '수락 ', exchange_item_path(alarm), class: "float-right pre", method: :post, remote: true, data: {confirm: "정말 교환시겠습니까?"} %>
+  <ul>
+    <% @player.player_alarms.each do |player_alarm| %>
+      <li>
+        <span><%= player_alarm.body %></span>
+        <%= link_to ' 거절', player_alarm_path(player_alarm), class: "float-right pre", method: :delete, data: {confirm: "정말 거절하시겠습니까?"} %>
+        <% if player_alarm.alarm_type == "touch" %>
+          <%= link_to '수락 ', allow_touch_path(player_alarm), class: "float-right pre", method: :post, data: {confirm: "정말 터치하시겠습니까?"} %>
+        <% elsif player_alarm.alarm_type == "exchange" %>
+          <%= link_to '수락 ', exchange_item_path(player_alarm), class: "float-right pre", method: :post, data: {confirm: "정말 교환시겠습니까?"} %>
         <% end %>
       </li>
     <% end %>
@@ -51,6 +63,7 @@
           </div>
           <div class="col">
             <%= link_to 'Touch', send_require_touch_path(player), method: :post, data: {confirm: "정말 #{player.user.name}님에게 터치 요청을 보내시겠습니까?"} %>
+            <%= link_to 'Exchange', send_require_item_path(player), method: :post, data: {confirm: "정말 #{player.user.name}님에게 아이템 교환 요청을 보내시겠습니까?"} %>
           </div>
         </div>
       </li>
@@ -67,9 +80,13 @@
         <div class="col">
           <%= image_tag(player.user.image.present? ? player.user.image : "default_profile.jpg", width: 30, height: 30) %>
         </div>
-
+        <div class="col">
+          <%= link_to 'Exchange', send_require_item_path(player), method: :post, data: {confirm: "정말 #{player.user.name}님에게 아이템 교환 요청을 보내시겠습니까?"} %>
+        </div>
       </div>
     </li>
     <% end %>
   </ul>
+
+
 <% end %>
