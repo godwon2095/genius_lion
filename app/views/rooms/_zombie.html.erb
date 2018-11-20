@@ -27,7 +27,7 @@
 
   <%= image_tag(@player.user.image.present? ? @player.user.image : "default_profile.jpg", width: 30, height: 30) %><%= @player.user.name %> (본인)
 
-  <%= link_to '내 아이템', list_item_path(@room) %>
+  <%= link_to '내 아이템', room_items_path(@room) %>
   <br><br>
   본인 제외 모든 유저 리스트 : <br>
   <% @players.where.not(user: current_user).each do |player| %>
@@ -45,7 +45,7 @@
         <% if player_alarm.alarm_type == "touch" %>
           <%= link_to '수락 ', allow_touch_path(player_alarm), class: "float-right pre", method: :post, data: {confirm: "정말 터치하시겠습니까?"} %>
         <% elsif player_alarm.alarm_type == "exchange" %>
-          <%= link_to '수락 ', exchange_item_path(player_alarm), class: "float-right pre", method: :post, data: {confirm: "정말 교환시겠습니까?"} %>
+          <%= link_to '수락 ', allow_item_path(player_alarm), class: "float-right pre", method: :post, data: {confirm: "정말 교환시겠습니까?"} %>
         <% end %>
       </li>
     <% end %>
@@ -59,7 +59,7 @@
       <li id="player-<%= player.id %>">
         <div class="row">
           <div class="col">
-            <%= image_tag(player.user.image.present? ? player.user.image : "default_profile.jpg", width: 30, height: 30) %>
+            <%= image_tag(player.user.image.present? ? player.user.image : "default_profile.jpg", width: 30, height: 30) %> <%= player.user.name %>
           </div>
           <div class="col">
             <%= link_to 'Touch', send_require_touch_path(player), method: :post, data: {confirm: "정말 #{player.user.name}님에게 터치 요청을 보내시겠습니까?"} %>
@@ -78,7 +78,7 @@
     <li id="player-<%= player.id %>">
       <div class="row">
         <div class="col">
-          <%= image_tag(player.user.image.present? ? player.user.image : "default_profile.jpg", width: 30, height: 30) %>
+          <%= image_tag(player.user.image.present? ? player.user.image : "default_profile.jpg", width: 30, height: 30) %> <%= player.user.name %>
         </div>
         <div class="col">
           <%= link_to 'Exchange', send_require_item_path(player), method: :post, data: {confirm: "정말 #{player.user.name}님에게 아이템 교환 요청을 보내시겠습니까?"} %>
@@ -87,6 +87,6 @@
     </li>
     <% end %>
   </ul>
-
+  <%= link_to '라운드2 시작', zombie_round2_room_path(@room), method: :post %>
 
 <% end %>

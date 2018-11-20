@@ -81,8 +81,85 @@ class RoomsController < ApplicationController
     end
   end
 
-  def start_zombie_round2 # 라운드 1의 시간이 끝나면 자동으로 라운드2로 넘어가는 부분
+  def start_zombie_round2 ## 라운드 1의 시간이 끝나면 자동으로 라운드2로 넘어가는 부분
+    @room = Room.find(params[:id])
+    Player.where(room: @room).each do |player|
+      if player.state == "zombie"
+        player.update(changed_at: Time.now - 600) ## 라운드 바뀐 후 해독제 사용하지 못하게
+      end
+      ## 1라운드에서 아무와도 터치하지 않았을 경우 좀비로 변하게
+      unless Touch.where(room: @room).pluck('player1_id').include?(player.id) || Touch.where(room: @room).pluck('player2_id').include?(player.id)
+        unless player.state == "zombie" || player.state == "first_zombie"
+          player.update(state: "zombie")
+        end
+      end
+    end
+    @room.update(step: "zombie_round2", changed_at: Time.now, notice: "인간 : #{Player.calculate_person(@room)}   좀비 : #{Player.calculate_zombie(@room)}")
+    ## 2라운드로 넘어가는 푸셔코드 짜기
 
+    respond_to do |format|
+      format.html { redirect_back(fallback_location: root_path) }
+      format.json { render json: @room, status: :ok }
+    end
+  end
+
+  def start_zombie_round3 ## 라운드 2의 시간이 끝나면 자동으로 자운드3로 넘어가는 부분
+    @room = Room.find(params[:id])
+    Player.where(room: @room).each do |player|
+      if player.state == "zombie"
+        player.update(changed_at: Time.now - 600) ## 라운드 바뀐 후 해독제 사용하지 못하게
+      end
+      ## 2라운드에서 아무와도 터치하지 않았을 경우 좀비로 변하게
+      unless Touch.where(room: @room, player1: player).where("created_at > ?", @room.changed_at).present? || Touch.where(room: @room, player2: player).where("created_at > ?", @room.changed_at).present?
+        unless player.state == "zombie" || player.state == "first_zombie"
+          player.update(state: "zombie")
+        end
+      end
+    end
+    @room.update(step: "zombie_round3", changed_at: Time.now, content: "인간 : #{Player.calculate_person(@room)}   좀비 : #{Player.calculate_zombie(@room)}")
+    ## 3라운드로 넘어가는 푸셔코드 짜기
+    respond_to do |format|
+      format.html { redirect_back(fallback_location: root_path) }
+      format.json { render json: @room, status: :ok }
+    end
+  end
+
+  def zombie_end ## 라운드3 종료되고 게임 종료되는 부분
+    @room = Room.find(params[:id])
+    room_players = Player.where(room: @room)
+    room_players.each do |player| ## 3라운드에서 아무와도 터치하지 않았을 경우 좀비로 변하게
+    if player.state == "zombie"
+      player.update(changed_at: Time.now - 600) ## 게임 종료 후 아이템 사용하지 못하게
+    end
+    unless Touch.where(room: @room, player1: player).where("created_at > ?", @room.changed_at).present? || Touch.where(room: @room, player2: player).where("created_at > ?", @room.changed_at).present?
+        unless player.state == "zombie" || player.state == "first_zombie"
+          player.update(state: "zombie")
+        end
+      end
+    end
+    @room.update(step: "zombie_end", changed_at: Time.now, content: "인간 : #{Player.calculate_person(@room)}   좀비 : #{Player.calculate_zombie(@room)}")
+    ## 게임 종료시켜주는 푸셔코드 짜기
+
+    ## 이겼을 시 루비 지급되는 부분
+    if room_players.where(state: "default").present? ## 사람이 이겼을 경우
+      winners = room_players.where(state: "default")
+      winners.each do |winner| ## 얻은 승점만큼 루비 지급
+        get_score = winner.score
+        tmp = winner.user.ruby_count
+        winner.user.update(ruby_count: tmp + get_score)
+      end
+    else ## 최초 좀비가 이겼을 경우
+      winners = room_players.where(state: "first_zombie")
+      winners.each do |winner|
+        tmp = winner.user.ruby_count
+        winner.user(update: tmp + 3) ## 최초 좀비가 이길 시 루비 3개씩 지급
+      end
+    end
+
+    respond_to do |format|
+      format.html { redirect_back(fallback_location: root_path) }
+      format.json { render json: @room, status: :ok }
+    end
   end
 
 

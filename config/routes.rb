@@ -24,6 +24,20 @@ Rails.application.routes.draw do
     member do
       post :game_start, as: :game_start
       post :start_zombie_round1, as: :zombie_round1
+      post :start_zombie_round2, as: :zombie_round2
+      post :start_zombie_round3, as: :zombie_round3
+      post :zombie_end, as: :zombie_end
+    end
+    resources :items, only: [:index] do
+      member do
+        post :use ## 아이템 사용하는 부분
+      end
+    end
+  end
+  resources :items, only: [:dontuse] do
+    member do
+      post :send_require ## 좀비게임에서 아이템 교환 요청을 보내는 부분
+      post :allow ## 좀비게임에서 플레이어 상호간의 아이템 교환하는 부분
     end
   end
   resources :channels, only: [:show]
@@ -41,13 +55,6 @@ Rails.application.routes.draw do
   resources :player_alarms, only: :destroy do
     member do
       delete :after_time_destroy ## 게임알람으로 인한 혼란을 방지하기 위해 알람 수락 및 거절 누르지 않을 시 알람 요청 5초 후 사라지게끔 하는부분
-    end
-  end
-  resources :items, only: [:dontuse] do
-    member do
-      get :list
-      post :send_require ## 좀비게임에서 아이템 교환 요청을 보내는 부분
-      post :allow ## 좀비게임에서 플레이어 상호간의 아이템 교환하는 부분
     end
   end
 

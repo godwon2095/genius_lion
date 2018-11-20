@@ -14,4 +14,12 @@ class Player < ApplicationRecord
   def kor_name
     KOR_NAME[self.state.to_sym]
   end
+
+  def self.calculate_person(room)
+    self.where(room: room, state: "default").size
+  end
+
+  def self.calculate_zombie(room)
+    self.where(room: room, state: "zombie").size + self.where(room: room, state: "first_zombie").size
+  end
 end
