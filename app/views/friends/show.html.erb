@@ -1,1 +1,4 @@
 <h2>친구 목록</h2>
+<% current_user.friend_users.each do |friend| %>
+  <%= friend.name %> | <%= friend.gender %> | <%= friend.ruby_count %> <br>
+<% end %>

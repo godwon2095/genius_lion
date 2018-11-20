@@ -99,9 +99,19 @@ class User < ApplicationRecord
     User.all.sort_by(&:win_game_rate).reverse
   end
 
-  def friend_users(user)
-    friends = user.friends
-    tmp_ids1 = Friend.where(user1: user).ids
+  def friends #미완
+    tmp_1 = Friend.where(user1: self)
+    tmp_2 = Friend.where(user2: self)
+    friends = tmp_1 + tmp_2
+  end
+
+  def friend_users #친구 정보 불러오기
+    a = Friend.where(user1: self )
+    aa = a.pluck(:user2_id)
+    b = Friend.where(user2: self)
+    bb = b.pluck(:user1_id)
+    c = bb + aa
+    User.find(c)
   end
 
   # def as_json(*)

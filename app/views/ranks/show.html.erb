@@ -2,7 +2,7 @@
 <ul class="">
   <% @ruby_ranking.each_with_index do |user, index| %>
     <li>
-      <%= index + 1 %>위 | <%= user.name %> | <%= user.gender %>gender | <%= user.ruby_count %>
+      <%= index + 1 %>위 | <%= user.name %> | <%= user.gender %> | <%= user.ruby_count %>
     </li>
   <% end %>
 <ul>
@@ -11,7 +11,7 @@
 <ul class="">
   <% User.sorted_by_win_game_rate.each_with_index do |user, index| %>
     <li>
-      <%= index + 1 %>위 | <%= user.name %> | <%= user.gender %>gender | <%= user.join_game_count %> | <%= user.win_game_count %> | <%= user.win_game_rate %>%
+      <%= index + 1 %>위 | <%= user.name %> | <%= user.gender %> | <%= user.join_game_count %> | <%= user.win_game_count %> | <%= user.win_game_rate %>%
     </li>
   <% end %>
 <ul>
