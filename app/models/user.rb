@@ -99,7 +99,6 @@ class User < ApplicationRecord
     User.all.sort_by(&:win_game_rate).reverse
   end
 
-
   def friend_users(user)
     friends = user.friends
     tmp_ids1 = Friend.where(user1: user).ids
