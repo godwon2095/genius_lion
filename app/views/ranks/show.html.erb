@@ -1,5 +1,8 @@
 <h2>루비 랭킹</h2>
 <ul class="">
+  <li>
+    나 | <%= current_user.name %> | <%= current_user.ruby_count %>
+  </li>
   <% @ruby_ranking.each_with_index do |user, index| %>
     <li>
       <%= index + 1 %>위 | <%= user.name %> | <%= user.gender %> | <%= user.ruby_count %>
@@ -9,9 +12,12 @@
 
 <h2>게임 랭킹 (승률순)</h2>
 <ul class="">
+  <li>
+    나 | <%= current_user.name %> | <%= current_user.join_game_count %>전 <%= current_user.win_game_count %>승 | <%= current_user.win_game_rate %>%
+  </li>
   <% User.sorted_by_win_game_rate.each_with_index do |user, index| %>
     <li>
-      <%= index + 1 %>위 | <%= user.name %> | <%= user.gender %> | <%= user.join_game_count %> | <%= user.win_game_count %> | <%= user.win_game_rate %>%
+      <%= index + 1 %>위 | <%= user.name %> | <%= user.gender %> | <%= user.join_game_count %>전 <%= user.win_game_count %>승 | <%= user.win_game_rate %>%
     </li>
   <% end %>
 <ul>

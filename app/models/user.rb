@@ -90,9 +90,7 @@ class User < ApplicationRecord
   end
 
   def win_game_rate #게임 랭킹에 쓰이는 게임 승률
-    if self.join_game_count.present?
-    ((self.win_game_count.to_f / self.join_game_count) * 100).to_i
-    end
+    ((self.win_game_count.to_f / self.join_game_count) * 100).to_i rescue 0
   end
 
   def self.sorted_by_win_game_rate #게임 랭킹에 쓰이는 게임 승률
