@@ -97,12 +97,6 @@ class User < ApplicationRecord
     User.all.sort_by(&:win_game_rate).reverse
   end
 
-  def friends #미완
-    tmp_1 = Friend.where(user1: self)
-    tmp_2 = Friend.where(user2: self)
-    friends = tmp_1 + tmp_2
-  end
-
   def friend_users #친구 정보 불러오기
     a = Friend.where(user1: self )
     aa = a.pluck(:user2_id)
