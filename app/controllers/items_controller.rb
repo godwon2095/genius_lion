@@ -11,7 +11,7 @@ class ItemsController < ApplicationController
   def use
     item_name = @item.name
     if item_name == "해독제"
-      if @player.changed_at.present? && Time.now - @player.changed_at >= 600
+      if @player.changed_at.present? && Time.now - @player.changed_at >= 600 ## 좀비로 변한지 10분이 지난경우 사용해도 인간으로 바뀌지 않게
         @player.items.destroy_all
         @player.items << Item.find_by(name: "사용한해독제")
       else
