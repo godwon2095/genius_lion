@@ -5,6 +5,7 @@ class Room < ApplicationRecord
   has_many :players, dependent: :destroy
   has_many :readies, dependent: :destroy
   has_many :touches, dependent: :destroy
+  has_many :fires, dependent: :destroy
 
   after_create :create_guardian
   before_save :gen_room_number
