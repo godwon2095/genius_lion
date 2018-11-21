@@ -7,7 +7,7 @@ class FriendsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_back(fallback_location: root_path)}
-      format.json { render json: @resource }
+      format.json { render json: @user, status: :ok }
     end
   end
 
@@ -16,14 +16,21 @@ class FriendsController < ApplicationController
     @user2 = current_user
     if @user1.id < @user2.id ##중복생성 방지위해 항상 id값이 큰 것이 plyaer2_id에
       friendship = Friend.find_by(user1_id: @user1.id, user2_id: @user2.id)
+
+      respond_to do |format|
+        format.json { render json: { user1: @user1, user2: @user2 }, status: :ok }
+      end
     else
       friendship = Friend.find_by(user1_id: @user2.id, user2_id: @user1.id)
+
+      respond_to do |format|
+        format.json { render json: { user1: @user1, user2: @user2 }, status: :ok }
+      end
     end
     friendship.destroy
 
     respond_to do |format|
-      format.html { redirect_back(fallback_location: root_path)}
-      format.json { render json: @resource }
+      format.json { render json: { user1: @user1, user2: @user2 }, status: :ok }
     end
   end
 
