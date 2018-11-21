@@ -1,6 +1,7 @@
 <% if user_signed_in? %>
   <%= link_to "알람", user_alarm_path(current_user) %>
   <%= link_to "루비랭킹", rank_path(current_user) %>
+  <%= link_to "프로필", profile_path(current_user) %>
 <% end %>
 
 <br><br>

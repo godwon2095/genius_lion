@@ -1,6 +1,4 @@
 <h2>친구 목록</h2>
-<% User.where(is_friend(@user): true).each do |user| %>
-  <ul>
-    <%= user.name %>
-  </ul>
+<% current_user.friend_users.each do |friend| %>
+  <%= friend.name %> | <%= friend.gender %> | <%= friend.ruby_count %> <br>
 <% end %>

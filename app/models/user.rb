@@ -90,13 +90,20 @@ class User < ApplicationRecord
   end
 
   def win_game_rate #게임 랭킹에 쓰이는 게임 승률
-    if self.join_game_count.present?
-    ((self.win_game_count.to_f / self.join_game_count) * 100).to_i
-    end
+    ((self.win_game_count.to_f / self.join_game_count) * 100).to_i rescue 0
   end
 
   def self.sorted_by_win_game_rate #게임 랭킹에 쓰이는 게임 승률
     User.all.sort_by(&:win_game_rate).reverse
+  end
+
+  def friend_users #친구 정보 불러오기
+    a = Friend.where(user1: self )
+    aa = a.pluck(:user2_id)
+    b = Friend.where(user2: self)
+    bb = b.pluck(:user1_id)
+    c = bb + aa
+    User.find(c)
   end
 
   # def as_json(*)
