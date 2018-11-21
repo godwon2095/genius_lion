@@ -1,0 +1,10 @@
+<br>
+<%= link_to '뒤로가기', room_path(@room) %>
+<br>
+
+<% @items.each do |item| %>
+  <%= item.name %>
+  <% if item.state == "usable" %>
+    <%= link_to '사용하기', use_room_item_path(@room, item), method: :post %>
+  <% end %>
+<% end %>

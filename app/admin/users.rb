@@ -6,9 +6,9 @@ ActiveAdmin.register User do
     id_column
     column "프로필 사진" do |user|
       if user.image?
-        image_tag user.image.url, class: "admin-indexImage"
+        image_tag user.image, class: "admin-indexImage"
       else
-        image_tag "genius1.png", class: "admin-indexImage"
+        image_tag "default_profile.jpg", class: "admin-indexImage"
       end
     end
     column :email

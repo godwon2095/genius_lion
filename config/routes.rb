@@ -24,6 +24,20 @@ Rails.application.routes.draw do
     member do
       post :game_start, as: :game_start
       post :start_zombie_round1, as: :zombie_round1
+      post :start_zombie_round2, as: :zombie_round2
+      post :start_zombie_round3, as: :zombie_round3
+      post :zombie_end, as: :zombie_end
+    end
+    resources :items, only: [:index] do
+      member do
+        post :use ## 아이템 사용하는 부분
+      end
+    end
+  end
+  resources :items, only: [:dontuse] do
+    member do
+      post :send_require ## 좀비게임에서 아이템 교환 요청을 보내는 부분
+      post :allow ## 좀비게임에서 플레이어 상호간의 아이템 교환하는 부분
     end
   end
   resources :channels, only: [:show]
@@ -35,7 +49,7 @@ Rails.application.routes.draw do
   resources :touches, only: [:dontuse] do
     member do
       post :send_require
-      post :allow
+      post :allow ## 터치 요청 수락 (플레이어 알람 컨트롤러 방대해지는 것 막기위해 터치 컨트롤러에서 처리)
     end
   end
   resources :player_alarms, only: :destroy do

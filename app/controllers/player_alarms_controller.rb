@@ -7,7 +7,7 @@ class PlayerAlarmsController < ApplicationController
 
     respond_to do |format|
       format.html {redirect_back(fallback_location: root_path)}
-      format.json {render: @alarm}
+      format.json {render json: @alarm}
     end
   end
 
