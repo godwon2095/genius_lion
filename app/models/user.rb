@@ -98,12 +98,12 @@ class User < ApplicationRecord
   end
 
   def friend_users #친구 정보 불러오기
-    a = Friend.where(user1: self )
-    aa = a.pluck(:user2_id)
-    b = Friend.where(user2: self)
-    bb = b.pluck(:user1_id)
-    c = bb + aa
-    User.find(c)
+    tmp_friend1 = Friend.where(user1: self )
+    tmp1_ids = tmp_friend1.pluck(:user2_id)
+    tmp_friend2 = Friend.where(user2: self)
+    tmp2_ids = tmp_friend2.pluck(:user1_id)
+    friends = tmp1_ids + tmp2_ids
+    User.where(id: friends)
   end
 
   # def as_json(*)
