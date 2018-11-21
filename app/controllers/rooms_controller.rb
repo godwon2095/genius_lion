@@ -110,8 +110,8 @@ class RoomsController < ApplicationController
         player.update(changed_at: Time.now - 600) ## 라운드 바뀐 후 해독제 사용하지 못하게
       end
       ## 2라운드에서 아무와도 터치하지 않았을 경우 좀비로 변하게
-      unless Touch.where(room: @room, player1: player).where("created_at > ?", @room.changed_at).present? || Touch.where(room: @room, player2: player).where("created_at > ?", @room.changed_at).present?
-        unless player.state == "zombie" || player.state == "first_zombie"
+      if Touch.where(room: @room, player1: player).where("created_at > ?", @room.changed_at).present? == false && Touch.where(room: @room, player2: player).where("created_at > ?", @room.changed_at).present? == false
+        if player.state == "default"
           player.update(state: "zombie")
         end
       end
@@ -127,12 +127,13 @@ class RoomsController < ApplicationController
   def zombie_end ## 라운드3 종료되고 게임 종료되는 부분
     @room = Room.find(params[:id])
     room_players = Player.where(room: @room)
-    room_players.each do |player| ## 3라운드에서 아무와도 터치하지 않았을 경우 좀비로 변하게
+    room_players.each do |player|
     if player.state == "zombie"
       player.update(changed_at: Time.now - 600) ## 게임 종료 후 아이템 사용하지 못하게
     end
-    unless Touch.where(room: @room, player1: player).where("created_at > ?", @room.changed_at).present? || Touch.where(room: @room, player2: player).where("created_at > ?", @room.changed_at).present?
-        unless player.state == "zombie" || player.state == "first_zombie"
+     ## 3라운드에서 아무와도 터치하지 않았을 경우 좀비로 변하게
+    if Touch.where(room: @room, player1: player).where("created_at > ?", @room.changed_at).present? == false && Touch.where(room: @room, player2: player).where("created_at > ?", @room.changed_at).present? == false
+        if player.state == "default"
           player.update(state: "zombie")
         end
       end
