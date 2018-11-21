@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_19_155700) do
+ActiveRecord::Schema.define(version: 2018_11_21_161538) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -51,6 +51,15 @@ ActiveRecord::Schema.define(version: 2018_11_19_155700) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["game_id"], name: "index_channels_on_game_id"
+  end
+
+  create_table "fires", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "room_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["room_id"], name: "index_fires_on_room_id"
+    t.index ["user_id"], name: "index_fires_on_user_id"
   end
 
   create_table "friends", force: :cascade do |t|
@@ -147,6 +156,8 @@ ActiveRecord::Schema.define(version: 2018_11_19_155700) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "channel_id"
+    t.integer "max_user_num"
+    t.integer "current_user_num", default: 0
     t.index ["channel_id"], name: "index_rooms_on_channel_id"
     t.index ["user_id"], name: "index_rooms_on_user_id"
   end

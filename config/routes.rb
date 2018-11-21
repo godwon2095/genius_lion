@@ -20,6 +20,7 @@ Rails.application.routes.draw do
       delete :delete_alarm, as: 'delete'
     end
   end
+  resources :games, only: :show
   resources :rooms, only: [:create, :show, :edit, :update, :destroy] do
     member do
       post :game_start, as: :game_start
@@ -31,6 +32,11 @@ Rails.application.routes.draw do
     resources :items, only: [:index] do
       member do
         post :use ## 아이템 사용하는 부분
+      end
+    end
+    resources :fires, only: :dontuse do
+      member do
+        post :create
       end
     end
   end

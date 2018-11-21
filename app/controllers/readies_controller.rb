@@ -6,11 +6,11 @@ class ReadiesController < ApplicationController
     ready = Ready.find_by(user: current_user, room: room)
 
     if ready.nil?
-      Ready.create(user: current_user, room: room)
+      ready = Ready.create(user: current_user, room: room)
+      render json: {ready: ready, create: "success~!"}, status: :ok
     else
       ready.destroy
+      render json: {destroy: "success!"}
     end
-
-    redirect_back(fallback_location: root_path)
   end
 end
