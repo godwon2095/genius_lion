@@ -3,11 +3,11 @@ class TouchesController < ApplicationController
 
   def send_require ## 터치 요청을 보내는 컨트롤러
     @player = Player.find(params[:id])
-    send_player = Player.find_by(room: @player.room, user: current_user)
+    send_player = Player.find_by(room: @player.room, user: current_vue_user)
     @recieve_user = @player.user
     player_alarm = PlayerAlarm.find_by(player_id: @player.id, send_player_id: send_player.id, alarm_type: "touch")
     if player_alarm.nil?
-      player_alarm = PlayerAlarm.create(player_id: @player.id, send_player_id: send_player.id, body: "#{current_user.name}님이 터치 요청을 보냈습니다.", alarm_type: "touch")
+      player_alarm = PlayerAlarm.create(player_id: @player.id, send_player_id: send_player.id, body: "#{current_vue_user.name}님이 터치 요청을 보냈습니다.", alarm_type: "touch")
     end
     ## 푸셔 코드 짜주기
 

@@ -4,7 +4,7 @@ class ItemsController < ApplicationController
   before_action :check_ownership!, only: :use
 
   def index
-    @player = Player.find_by(room: @room, user: current_user)
+    @player = Player.find_by(room: @room, user: current_vue_user)
     @items = @player.items
     item = @items.first
 
@@ -41,9 +41,9 @@ class ItemsController < ApplicationController
 
   def send_require
     @player = Player.find(params[:id])
-    send_player = Player.find_by(room: @player.room, user: current_user)
+    send_player = Player.find_by(room: @player.room, user: current_vue_user)
     @recieve_user = @player.user
-    player_alarm = PlayerAlarm.create(player_id: @player.id, send_player_id: send_player.id, body: "#{current_user.name}님이 아이템교환 요청을 보냈습니다.", alarm_type: "exchange")
+    player_alarm = PlayerAlarm.create(player_id: @player.id, send_player_id: send_player.id, body: "#{current_vue_user.name}님이 아이템교환 요청을 보냈습니다.", alarm_type: "exchange")
     ## 상대방에게 아이템 교환 요청이 갔다는 알람 푸셔코드로 짜주기
 
     respond_to do |format|
@@ -76,13 +76,13 @@ class ItemsController < ApplicationController
   def check_room_user! ## 해당방에서 게임 진행하는 사람만 접근할 수 있게
     @room = Room.find(params[:room_id])
     ids = @room.players.pluck('user_id')
-    redirect_to root_path, notice: "잘못 된 요청입니다." unless ids.include?(current_user.id)
+    redirect_to root_path, notice: "잘못 된 요청입니다." unless ids.include?(current_vue_user.id)
   end
 
   def check_ownership! ## 다른 유저가 주소로 현재유저의 아이템 사용하지 못하게
     @room = Room.find(params[:room_id])
     @item = Item.find(params[:id])
-    @player = Player.find_by(room: @room, user: current_user)
-    redirect_to root_path, notice: "잘못 된 요청입니다." unless current_user.players.include?(@player)
+    @player = Player.find_by(room: @room, user: current_vue_user)
+    redirect_to root_path, notice: "잘못 된 요청입니다." unless current_vue_user.players.include?(@player)
   end
 end

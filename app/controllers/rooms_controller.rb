@@ -23,21 +23,21 @@ class RoomsController < ApplicationController
   end
 
   def show
-    if Fire.find_by(user: current_user, room: @room).present?
+    if Fire.find_by(user: current_vue_user, room: @room).present?
       render json: {fired_user: "Fired user!!"}, status: :ok
-    # elsif @room.current_user_num >= @room.channel.game.max_num ## 실제 최대 인원 정하는게 가능해지면  @room.max_user_num 으로 바꾸기
+    # elsif @room.current_vue_user_num >= @room.channel.game.max_num ## 실제 최대 인원 정하는게 가능해지면  @room.max_user_num 으로 바꾸기
     #   render json: {surplus: "정원이 초과했습니다!"}, status: :ok
     else
       @game = @room.channel.game
       @guardian = Player.find_by(room: @room, is_guardian: true)
-      @player = Player.find_by(user: current_user, room: @room)
+      @player = Player.find_by(user: current_vue_user, room: @room)
       @players = Player.where(room: @room)
 
       if @player.present?
         ids_1 = Touch.where(player1_id: @player.id).pluck('player2_id')
         ids_2 = Touch.where(player2_id: @player.id).pluck('player1_id')
         @touched_ids = ids_1 + ids_2
-        @non_touched_players = @players.where.not(id: @touched_ids).where.not(user: current_user)
+        @non_touched_players = @players.where.not(id: @touched_ids).where.not(user: current_vue_user)
         @touched_players = @players.where(id: @touched_ids)
 
         respond_to do |format|
@@ -82,7 +82,7 @@ class RoomsController < ApplicationController
 
         room.update(step: "zombie_start")
 
-        current_user_identity = Player.find_by(room: @room, user: current_user).state
+        current_user_identity = Player.find_by(room: @room, user: current_vue_user).state
 
         # 푸셔코드 짜주기 ----
         respond_to do |format|
@@ -112,7 +112,7 @@ class RoomsController < ApplicationController
       player.items << Item.find_by(name: "해독제")
     end
 
-    current_player_item = Player.find_by(room: @room, user: current_user).items.first
+    current_player_item = Player.find_by(room: @room, user: current_vue_user).items.first
 
     respond_to do |format|
       format.html { redirect_back(fallback_location: root_path) }
@@ -222,7 +222,7 @@ class RoomsController < ApplicationController
     @room = Room.find(params[:id])
     ids = @room.players.pluck('user_id')
     if @room.step != "before_start"
-      render json: {errors: "이미 게임이 진행중인 방입니다."} unless ids.include?(current_user.id)
+      render json: {errors: "이미 게임이 진행중인 방입니다."} unless ids.include?(current_vue_user.id)
     end
   end
 end

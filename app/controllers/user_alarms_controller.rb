@@ -55,7 +55,7 @@ class UserAlarmsController < ApplicationController
 
   def cancel_friend #친구 신청 취소
     @user1 = User.find(params[:id])
-    @user2 = current_user
+    @user2 = current_vue_user
     @friendrequest = UserAlarm.find_by(user_id: @user1.id, send_user_id: @user2.id)
     @friendrequest.destroy
 
