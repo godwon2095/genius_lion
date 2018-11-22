@@ -39,6 +39,7 @@ class RoomsController < ApplicationController
         @touched_ids = ids_1 + ids_2
         @non_touched_players = @players.where.not(id: @touched_ids).where.not(user: current_vue_user)
         @touched_players = @players.where(id: @touched_ids)
+        @item = @player.items.first
 
         respond_to do |format|
           format.html
@@ -47,7 +48,8 @@ class RoomsController < ApplicationController
                                       current_player: @player,
                                       room_players: @players,
                                       non_touched_players: @non_touched_players,
-                                      touched_players: @touched_players}, status: :ok }
+                                      touched_players: @touched_players,
+                                      current_user_item: @item }, status: :ok }
         end
       else
         respond_to do |format|

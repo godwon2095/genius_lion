@@ -7,7 +7,7 @@ class PlayerAlarmsController < ApplicationController
     if @alarm.destroy
       respond_to do |format|
         format.html {redirect_back(fallback_location: root_path)}
-        format.json { render json: @alarm, status: :ok }
+        format.json { render json: {alarm: @alarm, result: "destroyed"}, status: :ok }
       end
     else
       respond_to do |format|
@@ -23,7 +23,7 @@ class PlayerAlarmsController < ApplicationController
     if @alarm.destroy
       respond_to do |format|
         format.html {redirect_back(fallback_location: root_path)}
-        format.json { render json: @alarm, status: :ok }
+        format.json { render json: {alarm: @alarm, result: "destroyed"}, status: :ok }
       end
     else
       respond_to do |format|
