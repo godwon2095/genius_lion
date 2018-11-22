@@ -82,7 +82,7 @@ class RoomsController < ApplicationController
 
         room.update(step: "zombie_start")
 
-        current_user_identity = Player.find_by(room: @room, user: current_vue_user).state
+        current_user_identity = Player.find_by(room: room, user: current_vue_user).state
 
         # 푸셔코드 짜주기 ----
         respond_to do |format|
