@@ -6,10 +6,7 @@ class RoomsController < ApplicationController
   def index
     @rooms = Room.where(state: "before_start")
 
-    respond_to do |format|
-      format.html
-      format.json { render json: @rooms }
-    end
+    render json: @rooms
   end
 
   def create
