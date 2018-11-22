@@ -142,6 +142,7 @@ class RoomsController < ApplicationController
           player.update(state: "zombie")
         end
       end
+    end
     @room.update(step: "zombie_round3", changed_at: Time.now, notice: "인간 : #{Player.calculate_person(@room)}   좀비 : #{Player.calculate_zombie(@room)}")
     ## 3라운드로 넘어가는 푸셔코드 짜기
     respond_to do |format|
