@@ -6,6 +6,9 @@ class ItemsController < ApplicationController
   def index
     @player = Player.find_by(room: @room, user: current_user)
     @items = @player.items
+    item = @items.first
+
+    render json: {current_player: @player, current_player_item: item}, status: :ok
   end
 
   def use
