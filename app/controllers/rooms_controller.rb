@@ -3,6 +3,15 @@ class RoomsController < ApplicationController
   before_action :private_setting, only: :create
   before_action :check_ready!, only: :show
 
+  def index
+    @rooms = Room.where(state: "before_start")
+
+    respond_to do |format|
+      format.html
+      format.json { render json: @rooms }
+    end
+  end
+
   def create
     respond_to do |format|
       if @room.save

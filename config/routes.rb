@@ -18,7 +18,7 @@ Rails.application.routes.draw do
     end
   end
   resources :games, only: :show
-  resources :rooms, only: [:create, :show, :edit, :update, :destroy] do
+  resources :rooms, only: [:index, :create, :show, :edit, :update, :destroy] do
     member do
       post :game_start, as: :game_start
       post :start_zombie_round1, as: :zombie_round1
