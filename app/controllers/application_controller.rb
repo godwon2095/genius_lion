@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
 
   private
   def current_vue_user
-    User.find(id: params[:q_user_id]) if params[:q_user_id].present?
+    User.find(params[:q_user_id]) if params[:q_user_id].present?
   end
 
   protected
