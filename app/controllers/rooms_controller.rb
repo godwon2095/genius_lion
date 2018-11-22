@@ -10,6 +10,9 @@ class RoomsController < ApplicationController
   end
 
   def create
+    @room.channel_id = 1
+    @room.user_id = params[:user_id]
+    @room.title = params[:title]
     if @room.save
       @rooms = Room.where(channel: Channel.first, step: "before_start")
       render json: {new_room: @room,
@@ -206,12 +209,12 @@ class RoomsController < ApplicationController
 
 
   private
-  def room_create_params
-    params.require(:room).permit(:user_id, :channel_id, :title, :password)
-  end
-
+  # def room_create_params
+  #   params.permit(:user_id, :channel_id, :title, :password)
+  # end
+  #
   def private_setting
-    @room = Room.new(room_create_params)
+    @room = Room.new
     @room.is_private = true if @room.password != ""
   end
 
