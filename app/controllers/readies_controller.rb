@@ -7,10 +7,10 @@ class ReadiesController < ApplicationController
 
     if ready.nil?
       ready = Ready.create(user: current_vue_user, room: room)
-      render json: {ready: ready, create: "success~!"}, status: :ok
+      render json: {ready: "success~!" }, status: :ok
     else
       ready.destroy
-      render json: {destroy: "success!"}
+      render json: {ready: "destroyed!"}
     end
   end
 end
