@@ -1,9 +1,6 @@
 Rails.application.routes.draw do
   root 'home#index'
 
-  get 'pages/welcome'
-  get 'pages/test'
-
   resources :profiles, only: [:show]
   resources :ranks, only: [:show]
   resources :friends, only: [:create, :show] do

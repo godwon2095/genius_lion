@@ -1,5 +1,5 @@
 class ChannelsController < ApplicationController
-  before_action :authenticate_user!
+  # before_action :authenticate_user!
   before_action :set_params, only: :show
 
   def show

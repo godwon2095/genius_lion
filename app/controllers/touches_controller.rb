@@ -1,5 +1,5 @@
 class TouchesController < ApplicationController
-  before_action :authenticate_user!
+  # before_action :authenticate_user!
 
   def send_require ## 터치 요청을 보내는 컨트롤러
     @player = Player.find(params[:id])

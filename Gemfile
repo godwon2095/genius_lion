@@ -23,6 +23,7 @@ gem 'devise-i18n'
 gem 'jquery-rails'
 gem 'pusher'
 gem 'timepiece'
+gem 'rack-cors'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.1'

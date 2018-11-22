@@ -1,5 +1,5 @@
 class RoomsController < ApplicationController
-  before_action :authenticate_user!
+  # before_action :authenticate_user!
   before_action :private_setting, only: :create
   before_action :check_ready!, only: :show
 

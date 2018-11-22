@@ -1,5 +1,5 @@
 class ItemsController < ApplicationController
-  before_action :authenticate_user!
+  # before_action :authenticate_user!
   before_action :check_room_user!, only: :index
   before_action :check_ownership!, only: :use
 

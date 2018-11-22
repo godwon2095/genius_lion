@@ -179,6 +179,7 @@ GEM
       activerecord
       kaminari-core (= 1.1.1)
     kaminari-core (1.1.1)
+    libv8 (3.16.14.19)
     libv8 (3.16.14.19-x86_64-darwin-17)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
@@ -235,6 +236,7 @@ GEM
       pusher-signature (~> 0.1.8)
     pusher-signature (0.1.8)
     rack (2.0.6)
+    rack-cors (1.0.2)
     rack-proxy (0.6.5)
       rack
     rack-test (1.1.0)
@@ -370,6 +372,7 @@ DEPENDENCIES
   omniauth-naver
   puma (~> 3.11)
   pusher
+  rack-cors
   rails (~> 5.2.1)
   rails-i18n
   sass-rails (~> 5.0)

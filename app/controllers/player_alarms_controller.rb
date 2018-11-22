@@ -1,9 +1,9 @@
 class PlayerAlarmsController < ApplicationController
-  before_action :authenticate_user!
+  # before_action :authenticate_user!
 
   def destroy
     @alarm = PlayerAlarm.find(params[:id])
-    
+
     if @alarm.destroy
       respond_to do |format|
         format.html {redirect_back(fallback_location: root_path)}

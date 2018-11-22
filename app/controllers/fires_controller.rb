@@ -1,5 +1,5 @@
 class FiresController < ApplicationController
-  before_action :authenticate_user!
+  # before_action :authenticate_user!
 
   def create #강퇴
     @room = Room.find(params[:room_id])

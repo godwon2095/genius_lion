@@ -1,5 +1,5 @@
 class ReadiesController < ApplicationController
-  before_action :authenticate_user!
+  # before_action :authenticate_user!
 
   def toggle
     room = Room.find(params[:id])
