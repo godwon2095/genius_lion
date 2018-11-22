@@ -3,9 +3,13 @@ class ChannelsController < ApplicationController
   before_action :set_params, only: :show
 
   def show
+    @room = Room.new
     @rooms = Room.where(channel: @channel, step: "before_start")
 
-    render json: {rooms: @rooms, channel: @channel}, status: :ok
+    respond_to do |format|
+      format.html
+      format.json { render json: {new_room: @room, rooms: @rooms, channel: @channel}, status: :ok }
+    end
   end
 
   private

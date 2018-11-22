@@ -33,17 +33,23 @@ class RoomsController < ApplicationController
         @non_touched_players = @players.where.not(id: @touched_ids).where.not(user: current_user)
         @touched_players = @players.where(id: @touched_ids)
 
-        render json: {game: @game,
-                      guardian_player: @guardian,
-                      current_player: @player,
-                      room_players: @players,
-                      non_touched_players: @non_touched_players,
-                      touched_players: @touched_players}, status: :ok
+        respond_to do |format|
+          format.html
+          format.json { render json: {game: @game,
+                                      guardian_player: @guardian,
+                                      current_player: @player,
+                                      room_players: @players,
+                                      non_touched_players: @non_touched_players,
+                                      touched_players: @touched_players}, status: :ok }
+        end
       else
-        render json: {game: @game,
-                      guardian_player: @guardian,
-                      current_player: @player,
-                      room_players: @players}, status: :ok
+        respond_to do |format|
+          format.html
+          format.json { render json: {game: @game,
+                                      guardian_player: @guardian,
+                                      current_player: @player,
+                                      room_players: @players}, status: :ok }
+        end
       end
     end
   end
