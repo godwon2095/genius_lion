@@ -4,7 +4,7 @@ class RoomsController < ApplicationController
   before_action :check_ready!, only: :show
 
   def index
-    @rooms = Room.where(state: "before_start")
+    @rooms = Room.where(step: "before_start")
 
     render json: @rooms
   end
