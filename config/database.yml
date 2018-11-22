@@ -27,4 +27,4 @@ production:
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   database: geniuslion
   username: root
-  password: 'root'
+  password: <%= ENV['GENIUSLION_DATEBASE_PASSWORD'] %>
