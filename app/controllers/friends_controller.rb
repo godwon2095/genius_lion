@@ -33,8 +33,4 @@ class FriendsController < ApplicationController
       format.json { render json: { user1: @user1, user2: @user2 }, status: :ok }
     end
   end
-
-  def show
-
-  end
 end
