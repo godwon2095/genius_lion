@@ -11,7 +11,7 @@ class RoomsController < ApplicationController
 
   def create
     @room.channel_id = 1
-    @room.user_id = params[:user_id]
+    @room.user = current_vue_user
     @room.title = params[:title]
     if @room.save
       @rooms = Room.where(channel: Channel.first, step: "before_start")
