@@ -4,7 +4,7 @@ class RoomsController < ApplicationController
   before_action :check_ready!, only: :show
 
   def index
-    @rooms = Room.where(step: "before_start")
+    @rooms = Room.where(channel: Channel.first, step: "before_start") ## 이후 수정
 
     render json: @rooms
   end
@@ -12,8 +12,10 @@ class RoomsController < ApplicationController
   def create
     respond_to do |format|
       if @room.save
+        @rooms = Room.where(channel: Channel.first, step: "before_start")
         format.html { redirect_to room_path(@room), notice: "방이 성공적으로 만들어졌습니다." }
-        format.json { render json: @room, status: :ok}
+        format.json { render json: {new_room: @room,
+                                    all_rooms: @rooms}, status: :ok}
       else
         format.html {redirect_to root_path, notice: "방을 생성할 수 없습니다."}
         format.json { render json: { errors: @room.errors.full_messages } }
