@@ -3,7 +3,8 @@ class VueUsersController < ApplicationController
     email = params[:email]
     user = User.find_by(email: email)
     if user.nil?
-      user = User.create!(email: email, password: Devise.friendly_token[0,20], password_confirmation: Devise.friendly_token[0,20])
+      new_password = Devise.friendly_token[0,20]
+      user = User.create!(email: email, password: new_password, password_confirmation: new_password)
 
       render json: {result: "create", user: user}
     else
