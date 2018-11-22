@@ -155,13 +155,14 @@ class RoomsController < ApplicationController
     @room = Room.find(params[:id])
     room_players = Player.where(room: @room)
     room_players.each do |player|
-    if player.state == "zombie"
-      player.update(changed_at: Time.now - 600) ## 게임 종료 후 아이템 사용하지 못하게
-    end
-     ## 3라운드에서 아무와도 터치하지 않았을 경우 좀비로 변하게
-    if Touch.where(room: @room, player1: player).where("created_at > ?", @room.changed_at).present? == false && Touch.where(room: @room, player2: player).where("created_at > ?", @room.changed_at).present? == false
-      if player.state == "default"
-        player.update(state: "zombie")
+      if player.state == "zombie"
+        player.update(changed_at: Time.now - 600) ## 게임 종료 후 아이템 사용하지 못하게
+      end
+       ## 3라운드에서 아무와도 터치하지 않았을 경우 좀비로 변하게
+      if Touch.where(room: @room, player1: player).where("created_at > ?", @room.changed_at).present? == false && Touch.where(room: @room, player2: player).where("created_at > ?", @room.changed_at).present? == false
+        if player.state == "default"
+          player.update(state: "zombie")
+        end
       end
     end
     @room.update(step: "zombie_end", changed_at: Time.now, notice: "인간 : #{Player.calculate_person(@room)}   좀비 : #{Player.calculate_zombie(@room)}")
