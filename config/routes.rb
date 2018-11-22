@@ -61,6 +61,8 @@ Rails.application.routes.draw do
     end
   end
 
+  post '/vue_user_create' => 'vue_users#create'
+
 
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
