@@ -7,10 +7,6 @@
     <%= link_to current_user.is_ready(@room) ? "레디완료" : "레디하기", toggle_ready_path(@room), method: :post %><br>
   <% end %>
 
-  <% if @players.present? %>
-    <%= @players
-
-
 <% elsif @room.step == "zombie_start" %>
   좀비게임 시작
 

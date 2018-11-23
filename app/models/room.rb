@@ -30,6 +30,12 @@ class Room < ApplicationRecord
     end
   end
 
+  def users_as_json
+    self.users.as_json.each do |hash|
+      hash[:ready] = is_ready(self)
+    end
+  end
+
   # def self.room_specific_statuses(game_type)
   #   if user.admin?
   #     Apt.statuses

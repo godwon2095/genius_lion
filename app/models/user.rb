@@ -51,6 +51,13 @@ class User < ApplicationRecord
     user #user 리턴
   end
 
+  def self.fake_data
+    return [{id: 1, name: "wonno", ready: true},
+            {id: 2, name: "wown", ready: false},
+            {id: 3, name: "wown", ready: false},
+           ]
+  end
+
   def is_friend(other_user) #친구인지 확인
     result = false
     tmp_friend1 = Friend.where(user1: self)
@@ -89,6 +96,12 @@ class User < ApplicationRecord
 
   def is_ready(room)
     Ready.find_by(user: self, room: room).present?
+  end
+
+  def self.as_json_by_room(room)
+    self.as_json.each do |hash|
+      hash[:ready] = is_ready(room)
+    end
   end
 
   def win_game_rate #게임 랭킹에 쓰이는 게임 승률

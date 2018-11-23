@@ -24,6 +24,7 @@ class RoomsController < ApplicationController
 
   def show
     Join.create(user: current_vue_user, room: @room)
+    @joined_users = Join.select("user")
     if Fire.find_by(user: current_vue_user, room: @room).present?
       render json: {fired_user: "Fired user!!"}, status: :ok
     # elsif @room.current_vue_user_num >= @room.channel.game.max_num ## 실제 최대 인원 정하는게 가능해지면  @room.max_user_num 으로 바꾸기
@@ -33,10 +34,6 @@ class RoomsController < ApplicationController
       @guardian = Player.find_by(room: @room, is_guardian: true)
       @player = Player.find_by(user: current_vue_user, room: @room)
       @players = Player.where(room: @room)
-
-      Pusher.trigger('room_id_channel', 'user_ready', {
-
-        })
 
       if @player.present?
         ids_1 = Touch.where(player1_id: @player.id).pluck('player2_id')
@@ -66,6 +63,12 @@ class RoomsController < ApplicationController
         end
       end
     end
+    Pusher.trigger('room_id_channel', 'user_ready', {
+      joined_users: @joined_users
+      })
+    respond_to do |format|
+      format.html
+      format.json { render json: {joined_users: @joined_users}, status: :ok }
   end
 
   def game_start # 게임이 시작됨
