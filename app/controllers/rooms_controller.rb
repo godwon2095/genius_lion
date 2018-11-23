@@ -64,7 +64,7 @@ class RoomsController < ApplicationController
       end
     end
     Pusher.trigger('room_id_channel', 'user_ready', {
-      joined_users: @joined_users
+      
       })
     respond_to do |format|
       format.html
