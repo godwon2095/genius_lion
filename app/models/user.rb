@@ -7,6 +7,7 @@ class User < ApplicationRecord
   enum gender: [:default, :male, :female, :others]
 
   has_one :identity, dependent: :destroy
+  has_one :join, dependent: :destroy
   has_many :friends, dependent: :destroy
   has_many :user_alarms, dependent: :destroy
   has_many :rooms, dependent: :destroy
