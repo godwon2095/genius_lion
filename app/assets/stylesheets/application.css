@@ -14,22 +14,3 @@
  *= require_self
  *= stub active_admin
  */
-.display-none {
-  display: none;
-}
-
-.pre-line {
-  white-space: pre-line;
-}
-
-#room_create_form {
-  display: none;
-}
-
-ul {
-  all: unset;
-}
-
-.hidden-file-field {
-  display: none;
-}

@@ -1,20 +1,7 @@
 {
-  "application.js": "/packs/application-15fef685fcf44694946a.js",
-  "application.js.map": "/packs/application-15fef685fcf44694946a.js.map",
-  "hello_erb.js": "/packs/hello_erb-0ca16d669595a543c124.js",
-  "hello_erb.js.map": "/packs/hello_erb-0ca16d669595a543c124.js.map",
-  "hello_vue.css": "/packs/hello_vue-8cce2ea2.css",
-  "hello_vue.css.map": "/packs/hello_vue-8cce2ea2.css.map",
-  "hello_vue.js": "/packs/hello_vue-d59801f55b09967d4a1a.js",
-  "hello_vue.js.map": "/packs/hello_vue-d59801f55b09967d4a1a.js.map",
-  "real_erb.css": "/packs/real_erb-8cce2ea2.css",
-  "real_erb.css.map": "/packs/real_erb-8cce2ea2.css.map",
-  "real_erb.js": "/packs/real_erb-48e1d8ca587ef0e37c04.js",
-  "real_erb.js.map": "/packs/real_erb-48e1d8ca587ef0e37c04.js.map",
-  "real_vue.css": "/packs/real_vue-8cce2ea2.css",
-  "real_vue.css.map": "/packs/real_vue-8cce2ea2.css.map",
-  "real_vue.js": "/packs/real_vue-6fcc6f25a752c520b5a2.js",
-  "real_vue.js.map": "/packs/real_vue-6fcc6f25a752c520b5a2.js.map",
-  "test_erb.js": "/packs/test_erb-8999489367ed66249545.js",
-  "test_erb.js.map": "/packs/test_erb-8999489367ed66249545.js.map"
+  "application.js": "/packs/application-10b0039c7b4be8086dcf.js",
+  "application.js.map": "/packs/application-10b0039c7b4be8086dcf.js.map",
+  "hello_vue.css": "/packs/hello_vue-7b25d1dc.css",
+  "hello_vue.js": "/packs/hello_vue-8708764babd187c48065.js",
+  "hello_vue.js.map": "/packs/hello_vue-8708764babd187c48065.js.map"
 }

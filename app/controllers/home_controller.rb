@@ -2,6 +2,9 @@ class HomeController < ApplicationController
   def index
     @room = Room.new
 
-    render json: @room, status: :ok
+    respond_to do |format|
+      format.html
+      format.json { render json: @room, statue: :ok }
+    end
   end
 end

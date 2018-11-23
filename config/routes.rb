@@ -1,9 +1,6 @@
 Rails.application.routes.draw do
   root 'home#index'
 
-  get 'pages/welcome'
-  get 'pages/test'
-
   resources :profiles, only: [:show]
   resources :ranks, only: [:show]
   resources :friends, only: [:create, :show] do
@@ -21,7 +18,7 @@ Rails.application.routes.draw do
     end
   end
   resources :games, only: :show
-  resources :rooms, only: [:create, :show, :edit, :update, :destroy] do
+  resources :rooms, only: [:index, :create, :show, :edit, :update, :destroy] do
     member do
       post :game_start, as: :game_start
       post :start_zombie_round1, as: :zombie_round1
@@ -63,6 +60,8 @@ Rails.application.routes.draw do
       delete :after_time_destroy ## 게임알람으로 인한 혼란을 방지하기 위해 알람 수락 및 거절 누르지 않을 시 알람 요청 5초 후 사라지게끔 하는부분
     end
   end
+
+  post '/vue_user_create' => 'vue_users#create'
 
 
   devise_for :admin_users, ActiveAdmin::Devise.config

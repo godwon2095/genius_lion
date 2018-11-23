@@ -1,30 +1,37 @@
 class RoomsController < ApplicationController
-  before_action :authenticate_user!
+  # before_action :authenticate_user!
   before_action :private_setting, only: :create
   before_action :check_ready!, only: :show
 
+  def index
+    @rooms = Room.where(channel: Channel.first, step: "before_start") ## 이후 수정
+
+    render json: @rooms
+  end
+
   def create
-    respond_to do |format|
-      if @room.save
-        format.html { redirect_to room_path(@room), notice: "방이 성공적으로 만들어졌습니다." }
-        format.json { render json: @room, status: :ok}
-      else
-        format.html {redirect_to root_path, notice: "방을 생성할 수 없습니다."}
-        format.json { render json: { errors: @room.errors.full_messages } }
-      end
+    @room.channel_id = 1
+    @room.user = current_vue_user
+    @room.title = params[:title]
+    if @room.save
+      @rooms = Room.where(channel: Channel.first, step: "before_start")
+      render json: {new_room: @room,
+                    all_rooms: @rooms}, status: :ok
+    else
+      render json: { errors: @room.errors.full_messages }
     end
   end
 
   def show
     Join.create(user: current_vue_user, room: @room)
-    if Fire.find_by(user: current_user, room: @room).present?
+    if Fire.find_by(user: current_vue_user, room: @room).present?
       render json: {fired_user: "Fired user!!"}, status: :ok
-    # elsif @room.current_user_num >= @room.channel.game.max_num ## 실제 최대 인원 정하는게 가능해지면  @room.max_user_num 으로 바꾸기
+    # elsif @room.current_vue_user_num >= @room.channel.game.max_num ## 실제 최대 인원 정하는게 가능해지면  @room.max_user_num 으로 바꾸기
     #   render json: {surplus: "정원이 초과했습니다!"}, status: :ok
     else
       @game = @room.channel.game
       @guardian = Player.find_by(room: @room, is_guardian: true)
-      @player = Player.find_by(user: current_user, room: @room)
+      @player = Player.find_by(user: current_vue_user, room: @room)
       @players = Player.where(room: @room)
 
       Pusher.trigger('room_id_channel', 'user_ready', {
@@ -35,20 +42,28 @@ class RoomsController < ApplicationController
         ids_1 = Touch.where(player1_id: @player.id).pluck('player2_id')
         ids_2 = Touch.where(player2_id: @player.id).pluck('player1_id')
         @touched_ids = ids_1 + ids_2
-        @non_touched_players = @players.where.not(id: @touched_ids).where.not(user: current_user)
+        @non_touched_players = @players.where.not(id: @touched_ids).where.not(user: current_vue_user)
         @touched_players = @players.where(id: @touched_ids)
+        @item = @player.items.first
 
-        render json: {game: @game,
-                      guardian_player: @guardian,
-                      current_player: @player,
-                      room_players: @players,
-                      non_touched_players: @non_touched_players,
-                      touched_players: @touched_players}, status: :ok
+        respond_to do |format|
+          format.html
+          format.json { render json: {game: @game,
+                                      guardian_player: @guardian,
+                                      current_player: @player,
+                                      room_players: @players,
+                                      non_touched_players: @non_touched_players,
+                                      touched_players: @touched_players,
+                                      current_user_item: @item }, status: :ok }
+        end
       else
-        render json: {game: @game,
-                      guardian_player: @guardian,
-                      current_player: @player,
-                      room_players: @players}, status: :ok
+        respond_to do |format|
+          format.html
+          format.json { render json: {game: @game,
+                                      guardian_player: @guardian,
+                                      current_player: @player,
+                                      room_players: @players}, status: :ok }
+        end
       end
     end
   end
@@ -74,7 +89,7 @@ class RoomsController < ApplicationController
 
         room.update(step: "zombie_start")
 
-        current_user_identity = Player.find_by(room: @room, user: current_user).state
+        current_user_identity = Player.find_by(room: room, user: current_vue_user).state
 
         # 푸셔코드 짜주기 ----
         respond_to do |format|
@@ -104,7 +119,7 @@ class RoomsController < ApplicationController
       player.items << Item.find_by(name: "해독제")
     end
 
-    current_player_item = Player.find_by(room: @room, user: current_user).items.first
+    current_player_item = Player.find_by(room: @room, user: current_vue_user).items.first
 
     respond_to do |format|
       format.html { redirect_back(fallback_location: root_path) }
@@ -147,6 +162,7 @@ class RoomsController < ApplicationController
           player.update(state: "zombie")
         end
       end
+    end
     @room.update(step: "zombie_round3", changed_at: Time.now, notice: "인간 : #{Player.calculate_person(@room)}   좀비 : #{Player.calculate_zombie(@room)}")
     ## 3라운드로 넘어가는 푸셔코드 짜기
     respond_to do |format|
@@ -159,13 +175,14 @@ class RoomsController < ApplicationController
     @room = Room.find(params[:id])
     room_players = Player.where(room: @room)
     room_players.each do |player|
-    if player.state == "zombie"
-      player.update(changed_at: Time.now - 600) ## 게임 종료 후 아이템 사용하지 못하게
-    end
-     ## 3라운드에서 아무와도 터치하지 않았을 경우 좀비로 변하게
-    if Touch.where(room: @room, player1: player).where("created_at > ?", @room.changed_at).present? == false && Touch.where(room: @room, player2: player).where("created_at > ?", @room.changed_at).present? == false
-      if player.state == "default"
-        player.update(state: "zombie")
+      if player.state == "zombie"
+        player.update(changed_at: Time.now - 600) ## 게임 종료 후 아이템 사용하지 못하게
+      end
+       ## 3라운드에서 아무와도 터치하지 않았을 경우 좀비로 변하게
+      if Touch.where(room: @room, player1: player).where("created_at > ?", @room.changed_at).present? == false && Touch.where(room: @room, player2: player).where("created_at > ?", @room.changed_at).present? == false
+        if player.state == "default"
+          player.update(state: "zombie")
+        end
       end
     end
     @room.update(step: "zombie_end", changed_at: Time.now, notice: "인간 : #{Player.calculate_person(@room)}   좀비 : #{Player.calculate_zombie(@room)}")
@@ -199,12 +216,12 @@ class RoomsController < ApplicationController
 
 
   private
-  def room_create_params
-    params.require(:room).permit(:user_id, :channel_id, :title, :password)
-  end
-
+  # def room_create_params
+  #   params.permit(:user_id, :channel_id, :title, :password)
+  # end
+  #
   def private_setting
-    @room = Room.new(room_create_params)
+    @room = Room.new
     @room.is_private = true if @room.password != ""
   end
 
@@ -212,7 +229,7 @@ class RoomsController < ApplicationController
     @room = Room.find(params[:id])
     ids = @room.players.pluck('user_id')
     if @room.step != "before_start"
-      render json: {errors: "이미 게임이 진행중인 방입니다."} unless ids.include?(current_user.id)
+      render json: {errors: "이미 게임이 진행중인 방입니다."} unless ids.include?(current_vue_user.id)
     end
   end
 end
