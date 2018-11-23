@@ -13,6 +13,7 @@ class User < ApplicationRecord
   has_many :players, dependent: :destroy
   has_many :readies, dependent: :destroy
   has_many :fires, dependent: :destroy
+  has_mnay :joins, dependent: :destory
 
   def self.find_for_oauth(auth, signed_in_resource = nil)
     identity = Identity.find_for_oauth(auth)

@@ -6,6 +6,7 @@ class Room < ApplicationRecord
   has_many :readies, dependent: :destroy
   has_many :touches, dependent: :destroy
   has_many :fires, dependent: :destroy
+  has_many :joins, dependent: :destroy
 
   after_create :create_guardian
   before_save :gen_room_number
@@ -13,7 +14,7 @@ class Room < ApplicationRecord
   enum step: [:before_start, :zombie_start, :zombie_round1, :zombie_round2, :zombie_round3, :zombie_end]
 
   def users_as_json
-    user_ids = self.readies.pluck("user_id")
+    user_ids = self.joins.pluck("user_id")
     users = User.where(id: user_ids)
     users.as_json.each do |hash|
       hash["ready"] = User.find(hash["id"]).is_ready(self)
