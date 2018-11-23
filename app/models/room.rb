@@ -13,7 +13,7 @@ class Room < ApplicationRecord
   enum step: [:before_start, :zombie_start, :zombie_round1, :zombie_round2, :zombie_round3, :zombie_end]
 
   def users_as_json
-    user_ids = self.players.pluck("user_id")
+    user_ids = self.readies.pluck("user_id")
     users = User.where(id: user_ids)
     users.as_json.each do |hash|
       hash["ready"] = User.find(hash["id"]).is_ready(self)
