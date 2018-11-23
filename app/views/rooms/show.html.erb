@@ -1,11 +1,1 @@
-<div>
-  <h1><%= @room.title %></h1>
-  <%= @room.id %>
-  <br>
 
-  <% if @game == Game.find_by(title: "좀비게임")  %>
-    <%= render partial: "zombie" %>
-  <% elsif @game == Game.find_by(title: "신분교환") %>
-    <%= render partial: "exchange_identity" %>
-  <% end %>
-</div>

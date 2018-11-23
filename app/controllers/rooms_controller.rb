@@ -23,6 +23,10 @@ class RoomsController < ApplicationController
   end
 
   def show
+    join = Join.find_by(user: current_vue_user, room: @room)
+    if join.nil?
+      Join.create(user: current_vue_user, room: @room)
+    end
     if Fire.find_by(user: current_vue_user, room: @room).present?
       render json: {fired_user: "Fired user!!"}, status: :ok
     # elsif @room.current_vue_user_num >= @room.channel.game.max_num ## 실제 최대 인원 정하는게 가능해지면  @room.max_user_num 으로 바꾸기
@@ -227,7 +231,6 @@ class RoomsController < ApplicationController
 
   def check_ready! ## 게임이 시작 된 후 레디 한 유저만 방에 접근할 수 있게
     @room = Room.find(params[:id])
-    Join.find_or_create_by(user: current_vue_user, room: @room)
     ids = @room.players.pluck('user_id')
     if @room.step != "before_start"
       render json: {errors: "이미 게임이 진행중인 방입니다."} unless ids.include?(current_vue_user.id)
