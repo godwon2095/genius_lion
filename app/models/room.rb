@@ -12,6 +12,14 @@ class Room < ApplicationRecord
 
   enum step: [:before_start, :zombie_start, :zombie_round1, :zombie_round2, :zombie_round3, :zombie_end]
 
+  def users_as_json
+    user_ids = self.players.pluck("user_id")
+    users = User.where(id: user_ids)
+    users.as_json.each do |hash|
+      hash["ready"] = User.find(hash["id"]).is_ready(self)
+    end
+  end
+
   private
   def create_guardian
     Player.create(user: self.user, room: self, is_guardian: true)

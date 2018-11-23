@@ -33,30 +33,35 @@ class RoomsController < ApplicationController
       @player = Player.find_by(user: current_vue_user, room: @room)
       @players = Player.where(room: @room)
 
+
       if @player.present?
         ids_1 = Touch.where(player1_id: @player.id).pluck('player2_id')
         ids_2 = Touch.where(player2_id: @player.id).pluck('player1_id')
         @touched_ids = ids_1 + ids_2
-        @non_touched_players = @players.where.not(id: @touched_ids).where.not(user: current_vue_user)
-        @touched_players = @players.where(id: @touched_ids)
+        @non_touched_player_ids = @players.where.not(id: @touched_ids).where.not(user: current_vue_user).ids
+        @touched_player_ids = @players.where(id: @touched_ids).ids
+        non_touched_users = User.includes(:players).where(players: {id: @non_touched_player_ids})
+        touched_users = User.includes(:players).where(players: {id: @touched_player_ids})
         @item = @player.items.first
 
         respond_to do |format|
           format.html
-          format.json { render json: {game: @game,
-                                      guardian_player: @guardian,
+          format.json { render json: {
                                       current_player: @player,
                                       room_players: @players,
-                                      non_touched_players: @non_touched_players,
-                                      touched_players: @touched_players,
+                                      users: @room.users_as_json,
+                                      non_touched_users: non_touched_users,
+                                      touched_users: touched_users,
                                       current_user_item: @item }, status: :ok }
         end
       else
+
+
         respond_to do |format|
           format.html
-          format.json { render json: {game: @game,
-                                      guardian_player: @guardian,
+          format.json { render json: {
                                       current_player: @player,
+                                      is_ready: @room.users_as_json,
                                       room_players: @players}, status: :ok }
         end
       end
@@ -109,7 +114,8 @@ class RoomsController < ApplicationController
   def start_zombie_round1 ## 좀비 게임 라운드 1이 시작되도록
     @room = Room.find(params[:id])
     @room.update(step: "zombie_round1", changed_at: Time.now)
-    Player.where(room: @room).each do |player|
+    players = Player.where(room: @room)
+    players.each do |player|
       player.items.destroy_all
       player.items << Item.find_by(name: "해독제")
     end
@@ -118,7 +124,8 @@ class RoomsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_back(fallback_location: root_path) }
-      format.json { render json: {room: @room,
+      format.json { render json: {players: players,
+                                  room: @room,
                                   current_player_item: current_player_item}, status: :ok }
     end
   end
